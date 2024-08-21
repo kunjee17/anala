@@ -1,0 +1,25 @@
+---
+
+import * as console from "node:console";
+import { Logout } from "../../components";
+import { getUser } from "../../firebase/server";
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+/*Get Session Cookie*/
+const sessionCookie = Astro.cookies.get("__session")?.value || "";
+if (!sessionCookie) {
+	console.log("session cookie not found");
+	return Astro.redirect("/admin");
+}
+
+const user = await getUser(sessionCookie);
+if (!user) {
+	console.log("user cookie not found");
+	return Astro.redirect("/admin");
+}
+---
+
+<AdminLayout title="Dashboard">
+    <p>Dashboard</p>
+    <Logout client:only="react" />
+</AdminLayout>

@@ -1,30 +1,42 @@
 {
-  "name": "anala",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.3",
-    "@astrojs/netlify": "^5.5.1",
-    "@astrojs/react": "^3.6.2",
-    "@astrojs/tailwind": "^5.1.0",
-    "@tailwindcss/typography": "^0.5.14",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "astro": "^4.14.2",
-    "daisyui": "^4.12.10",
-    "firebase": "^10.13.0",
-    "firebase-admin": "^12.3.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4"
-  },
-  "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"
+	"name": "anala",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"check:write": "pnpm biome check --write .",
+		"check": "pnpm biome check .",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.3",
+		"@astrojs/netlify": "^5.5.1",
+		"@astrojs/react": "^3.6.2",
+		"@astrojs/tailwind": "^5.1.0",
+		"@react-hookz/web": "^24.0.4",
+		"@tailwindcss/typography": "^0.5.14",
+		"@tanstack/react-form": "^0.29.2",
+		"@tanstack/valibot-form-adapter": "^0.29.2",
+		"@tanstack/zod-form-adapter": "^0.29.2",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"astro": "^4.14.2",
+		"daisyui": "^4.12.10",
+		"firebase": "^10.13.0",
+		"firebase-admin": "^12.3.1",
+		"react": "^18.3.1",
+		"react-daisyui": "^5.0.3",
+		"react-dom": "^18.3.1",
+		"tailwindcss": "^3.4.10",
+		"typescript": "^5.5.4",
+		"valibot": "^0.38.0",
+		"zod": "^3.23.8"
+	},
+	"packageManager": "pnpm@9.6.0",
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3"
+	}
 }

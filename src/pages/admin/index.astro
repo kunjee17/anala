@@ -1,0 +1,9 @@
+---
+
+import { Login } from "../../components";
+import AuthLayout from "../../layouts/AuthLayout.astro";
+---
+
+<AuthLayout>
+    <Login client:only="react" />
+</AuthLayout>
