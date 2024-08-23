@@ -1,0 +1,8 @@
+---
+
+import { AddOrEdit } from "../../../components/admin/blogs";
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+---
+<AdminLayout title="Blogs - Add">
+<AddOrEdit id={undefined} client:only="react" />
+</AdminLayout>

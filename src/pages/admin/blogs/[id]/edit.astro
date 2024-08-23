@@ -1,0 +1,10 @@
+---
+import { AddOrEdit } from "../../../../components/admin/blogs";
+import AdminLayout from "../../../../layouts/AdminLayout.astro";
+const { id } = Astro.params;
+---
+
+
+<AdminLayout title="Blogs - Edit">
+    <AddOrEdit id={id} client:only="react"/>
+</AdminLayout>
