@@ -1,0 +1,13 @@
+---
+
+import Layout from "../../../layouts/Layout.astro";
+
+const { month, year, slug } = Astro.params;
+---
+<Layout title="title of post">
+    <div>
+        Something should be here
+
+        {month}-{year}-{slug}
+    </div>
+</Layout>
