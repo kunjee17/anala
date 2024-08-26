@@ -27,6 +27,6 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 	cookies.set("__session", sessionCookie, {
 		path: "/",
 	});
-
-	return redirect("/admin/dashboard");
+	const redirectUrl = request.headers.get("x-redirect-to");
+	return redirectUrl ? redirect(redirectUrl) : redirect("/admin/dashboard");
 };

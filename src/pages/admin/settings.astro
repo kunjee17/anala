@@ -1,10 +1,10 @@
 ---
 
 import { ThemeSettings } from "../../components";
-import Layout from "../../layouts/Layout.astro";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 ---
 
-<Layout title="Settings">
+<AdminLayout title="Settings">
     Settings page will come here
     <ThemeSettings client:only="react" />
-</Layout>
+</AdminLayout>

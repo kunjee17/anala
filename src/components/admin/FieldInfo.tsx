@@ -1,8 +1,8 @@
 import type { FieldApi } from "@tanstack/react-form";
 import { Alert } from "react-daisyui";
-// biome-ignore lint/suspicious/noExplicitAny: Passing type for Error is overkill as of now <explanation>
 export const FieldInfo = ({
 	field,
+	// biome-ignore lint/suspicious/noExplicitAny: Passing type for Error is overkill as of now <explanation>
 }: { field: FieldApi<any, any, any, any> }) => {
 	return (
 		<>

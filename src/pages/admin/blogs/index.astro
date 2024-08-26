@@ -1,0 +1,8 @@
+---
+
+import { List } from "../../../components/admin/blogs";
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+---
+<AdminLayout title="Blogs">
+    <List client:only="react" />
+</AdminLayout>

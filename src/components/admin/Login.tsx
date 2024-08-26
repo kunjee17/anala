@@ -28,10 +28,13 @@ const postFromData = async (dto: SignInDTO) => {
 	);
 
 	const idToken = await userCredential.user.getIdToken();
+	const params = new URLSearchParams(window.location.search);
+	const redirectTo = params.get("redirect_to");
 	const res = await fetch("/api/auth/login", {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${idToken}`,
+			"x-redirect-to": redirectTo || "",
 		},
 	});
 	if (!res.ok) {
@@ -53,9 +56,9 @@ export const Login = () => {
 		onSubmit: async ({ value }) => {
 			try {
 				await postFromData(value);
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			} catch (error: any) {
-				setErrorMsg(error.message);
+			} catch (error: unknown) {
+				const err = error as Error;
+				setErrorMsg(err.message);
 			}
 		},
 	});

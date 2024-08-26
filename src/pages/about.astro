@@ -1,0 +1,17 @@
+---
+
+import { Markdown } from "astro-remote";
+import Layout from "../layouts/Layout.astro";
+
+const markdown = "# Some Header";
+---
+<Layout title="About">
+    <div>About Page</div>
+    <div>
+        here markdown will come
+        <article class="prose lg:prose-xl">
+            <Markdown content={markdown} />
+        </article>
+
+    </div>
+</Layout>

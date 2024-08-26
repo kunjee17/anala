@@ -1,0 +1,29 @@
+---
+
+import { Markdown } from "astro-remote";
+import type { BlogPost } from "../../../components/admin/blogs/Types";
+import { firestore } from "../../../firebase/server";
+import Layout from "../../../layouts/Layout.astro";
+
+const { month, year, slug } = Astro.params;
+
+const blogs = await firestore
+	.collection("posts")
+	.where("slug", "==", slug)
+	.get();
+const blogSnap = blogs.docs[0];
+
+const blog = blogSnap?.exists
+	? ({ id: blogSnap.id, ...blogSnap.data() } as BlogPost)
+	: null;
+---
+<Layout title="title of post">
+    <div>
+        Something should be here
+
+        {month}-{year}-{slug}
+        <article class="prose lg:prose-xl">
+            <Markdown content={blog?.content || "NO DATA"} />
+        </article>
+    </div>
+</Layout>
