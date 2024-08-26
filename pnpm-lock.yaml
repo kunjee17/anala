@@ -50,12 +50,18 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      dompurify:
+        specifier: ^3.1.6
+        version: 3.1.6
       firebase:
         specifier: ^10.13.0
         version: 10.13.0
       firebase-admin:
         specifier: ^12.3.1
         version: 12.3.1
+      marked:
+        specifier: ^14.1.0
+        version: 14.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -81,6 +87,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.8.3
         version: 1.8.3
+      '@types/dompurify':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -1906,6 +1915,9 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
+  '@types/dompurify@3.0.5':
+    resolution: {integrity: sha512-1Wg0g3BtQF7sSb27fJQAKck1HECM6zV1EB66j8JH9i3LCjYabJa0FSdiSgsD5K/RbrsR0SiraKacLB+T8ZVYAg==}
+
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
 
@@ -1971,6 +1983,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -2442,6 +2457,9 @@ packages:
 
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
+
+  dompurify@3.1.6:
+    resolution: {integrity: sha512-cTOAhc36AalkjtBpfG6O8JimdTMWNXjiePT2xQH/ppBGi/4uIpmj8eKyIkMJErXWARyINV/sB38yf8JCLF5pbQ==}
 
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
@@ -3163,6 +3181,11 @@ packages:
 
   marked@12.0.2:
     resolution: {integrity: sha512-qXUm7e/YKFoqFPYPa3Ukg9xlI5cyAtGmyEIzMfW//m6kXwCy2Ps9DYf5ioijFKQ8qyuscrHoY04iJGctu2Kg0Q==}
+    engines: {node: '>= 18'}
+    hasBin: true
+
+  marked@14.1.0:
+    resolution: {integrity: sha512-P93GikH/Pde0hM5TAXEd8I4JAYi8IB03n8qzW8Bh1BIEFpEyBoYxi/XWZA53LSpTeLBiMQOoSMj0u5E/tiVYTA==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -6713,6 +6736,10 @@ snapshots:
     dependencies:
       '@types/ms': 0.7.34
 
+  '@types/dompurify@3.0.5':
+    dependencies:
+      '@types/trusted-types': 2.0.7
+
   '@types/estree-jsx@1.0.5':
     dependencies:
       '@types/estree': 1.0.5
@@ -6798,6 +6825,8 @@ snapshots:
 
   '@types/tough-cookie@4.0.5':
     optional: true
+
+  '@types/trusted-types@2.0.7': {}
 
   '@types/unist@2.0.11': {}
 
@@ -7370,6 +7399,8 @@ snapshots:
   diff@5.2.0: {}
 
   dlv@1.1.3: {}
+
+  dompurify@3.1.6: {}
 
   dotenv@16.4.5: {}
 
@@ -8259,6 +8290,8 @@ snapshots:
       smartypants: 0.2.2
 
   marked@12.0.2: {}
+
+  marked@14.1.0: {}
 
   mdast-util-definitions@6.0.0:
     dependencies:

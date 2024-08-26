@@ -1,10 +1,19 @@
 ---
 import { AddOrEdit } from "../../../../components/admin/blogs";
+import type { BlogPost } from "../../../../components/admin/blogs/Types";
+import { firestore } from "../../../../firebase/server";
 import AdminLayout from "../../../../layouts/AdminLayout.astro";
 const { id } = Astro.params;
+
+const docRef = firestore.collection("posts").doc(id || "");
+const docSnap = await docRef.get();
+const doc = docSnap.exists
+	? ({ id: docSnap.id, ...docSnap.data() } as BlogPost)
+	: undefined;
+console.log(doc);
 ---
 
 
 <AdminLayout title="Blogs - Edit">
-    <AddOrEdit id={id} client:only="react"/>
+    <AddOrEdit initialData={doc} client:only="react"/>
 </AdminLayout>

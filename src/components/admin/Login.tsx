@@ -56,9 +56,9 @@ export const Login = () => {
 		onSubmit: async ({ value }) => {
 			try {
 				await postFromData(value);
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			} catch (error: any) {
-				setErrorMsg(error.message);
+			} catch (error: unknown) {
+				const err = error as Error;
+				setErrorMsg(err.message);
 			}
 		},
 	});

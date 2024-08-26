@@ -1,14 +1,31 @@
 import {
-	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
+	ChangeCodeMirrorLanguage,
+	CodeToggle,
+	ConditionalContents,
 	CreateLink,
+	DiffSourceToggleWrapper,
+	InsertCodeBlock,
+	InsertFrontmatter,
+	InsertSandpack,
+	InsertTable,
+	InsertThematicBreak,
 	ListsToggle,
 	MDXEditor,
+	Separator,
+	ShowSandpackInfo,
+	StrikeThroughSupSubToggles,
 	UndoRedo,
 	codeMirrorPlugin,
+	diffSourcePlugin,
 	headingsPlugin,
+	linkDialogPlugin,
+	linkPlugin,
 	listsPlugin,
+	markdownShortcutPlugin,
 	quotePlugin,
+	tablePlugin,
+	thematicBreakPlugin,
 	toolbarPlugin,
 } from "@mdxeditor/editor";
 import { useForm } from "@tanstack/react-form";
@@ -21,11 +38,26 @@ import type { BlogPost } from "./Types.ts";
 import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 
-export const AddOrEdit = ({ id }: { id: string | undefined }) => {
+import { collection, doc, writeBatch } from "firebase/firestore";
+import { firestore } from "../../../firebase/client.ts";
+
+const insertOrUpdateBlog = async (blog: BlogPost) => {
+	console.log(blog);
+	const batch = writeBatch(firestore);
+	const blogs = collection(firestore, "posts");
+	const blogDoc = blog.id ? doc(blogs, blog.id) : doc(blogs);
+	batch.set(blogDoc, blog);
+
+	await batch.commit();
+};
+
+export const AddOrEdit = ({
+	initialData,
+}: { initialData: BlogPost | undefined }) => {
 	const [errorMsg, setErrorMsg] = useState("");
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
 		useForm<BlogPost>({
-			defaultValues: {
+			defaultValues: initialData || {
 				author: "",
 				content: "",
 				slug: "",
@@ -38,6 +70,13 @@ export const AddOrEdit = ({ id }: { id: string | undefined }) => {
 			},
 			onSubmit: async ({ value }) => {
 				console.log(value);
+				try {
+					await insertOrUpdateBlog({ updatedAt: new Date(), ...value });
+					window.location.assign("/admin/blogs");
+				} catch (err: unknown) {
+					const e = err as Error;
+					setErrorMsg(e.message);
+				}
 			},
 		});
 	return (
@@ -130,7 +169,11 @@ export const AddOrEdit = ({ id }: { id: string | undefined }) => {
 								type={"text"}
 								value={field.state.value}
 								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value.split(","))}
+								onChange={(e) =>
+									field.handleChange(
+										e.target.value.split(",").map((x) => x.trim()),
+									)
+								}
 								placeholder={"Comma Seperated Tags"}
 							/>
 							<FieldInfo field={field} />
@@ -167,21 +210,101 @@ export const AddOrEdit = ({ id }: { id: string | undefined }) => {
 					{(field) => (
 						<>
 							<MDXEditor
-								markdown={"# Hello World"}
+								markdown={field.state.value}
+								contentEditableClassName="prose"
 								plugins={[
 									headingsPlugin(),
-									codeMirrorPlugin(),
+									diffSourcePlugin({
+										viewMode: "rich-text",
+										diffMarkdown: "boo",
+									}),
+									codeMirrorPlugin({
+										codeBlockLanguages: {
+											js: "JavaScript",
+											css: "CSS",
+											rust: "Rust",
+											txt: "Plain Text",
+											tsx: "TypeScript",
+											"": "Unspecified",
+										},
+									}),
 									quotePlugin(),
+									markdownShortcutPlugin(),
 									listsPlugin(),
+									linkPlugin(),
+									linkDialogPlugin(),
+									tablePlugin(),
+									thematicBreakPlugin(),
 									toolbarPlugin({
 										toolbarContents: () => (
-											<>
-												<UndoRedo />
-												<BoldItalicUnderlineToggles />
-												<BlockTypeSelect />
-												<CreateLink />
-												<ListsToggle />
-											</>
+											<DiffSourceToggleWrapper>
+												<ConditionalContents
+													options={[
+														// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+														{
+															when: (editor: any) =>
+																editor?.editorType === "codeblock",
+															contents: () => <ChangeCodeMirrorLanguage />,
+														},
+														// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+														{
+															when: (editor: any) =>
+																editor?.editorType === "sandpack",
+															contents: () => <ShowSandpackInfo />,
+														},
+														{
+															fallback: () => (
+																<>
+																	<UndoRedo />
+																	<Separator />
+																	<BoldItalicUnderlineToggles />
+																	<CodeToggle />
+																	<Separator />
+																	<StrikeThroughSupSubToggles />
+																	<Separator />
+																	<ListsToggle />
+																	<Separator />
+
+																	{/*<ConditionalContents*/}
+																	{/*	options={[{ when: whenInAdmonition, contents: () => <ChangeAdmonitionType /> }, { fallback: () => <BlockTypeSelect /> }]}*/}
+																	{/*/>*/}
+
+																	<Separator />
+
+																	<CreateLink />
+																	{/*<InsertImage />*/}
+
+																	<Separator />
+
+																	<InsertTable />
+																	<InsertThematicBreak />
+
+																	<Separator />
+																	<InsertCodeBlock />
+																	<InsertSandpack />
+
+																	{/*<ConditionalContents*/}
+																	{/*	options={[*/}
+																	{/*		{*/}
+																	{/*			when: (editorInFocus) => !whenInAdmonition(editorInFocus),*/}
+																	{/*			contents: () => (*/}
+																	{/*				<>*/}
+																	{/*					<Separator />*/}
+																	{/*					<InsertAdmonition />*/}
+																	{/*				</>*/}
+																	{/*			)*/}
+																	{/*		}*/}
+																	{/*	]}*/}
+																	{/*/>*/}
+
+																	<Separator />
+																	<InsertFrontmatter />
+																</>
+															),
+														},
+													]}
+												/>
+											</DiffSourceToggleWrapper>
 										),
 									}),
 								]}
