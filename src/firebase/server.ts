@@ -1,9 +1,8 @@
 import type { ServiceAccount } from "firebase-admin";
-import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
-const activeApps = getApps();
 const serviceAccount = {
 	type: "service_account",
 	project_id: import.meta.env.FIREBASE_PROJECT_ID,
@@ -17,19 +16,9 @@ const serviceAccount = {
 	client_x509_cert_url: import.meta.env.FIREBASE_CLIENT_CERT_URL,
 };
 
-const initApp = () => {
-	if (import.meta.env.PROD) {
-		console.info("PROD env detected. Using default service account.");
-		// Use default config in firebase functions. Should be already injected in the server by Firebase.
-		return initializeApp();
-	}
-	console.info("Loading service account from env.");
-	return initializeApp({
-		credential: cert(serviceAccount as ServiceAccount),
-	});
-};
-
-export const app = activeApps.length === 0 ? initApp() : activeApps[0];
+export const app = initializeApp({
+	credential: cert(serviceAccount as ServiceAccount),
+});
 
 export const auth = getAuth(app);
 export const firestore = app ? getFirestore(app) : getFirestore();
@@ -37,8 +26,7 @@ export const firestore = app ? getFirestore(app) : getFirestore();
 export const getUser = async (cookie: string) => {
 	try {
 		const decodedIdToken = await auth.verifySessionCookie(cookie, true);
-		const user = await auth.getUser(decodedIdToken.uid);
-		return user;
+		return await auth.getUser(decodedIdToken.uid);
 	} catch (error) {
 		return null;
 	}

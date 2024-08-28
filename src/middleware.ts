@@ -4,7 +4,10 @@ import { getUser } from "./firebase/server.ts";
 export async function onRequest(context: APIContext, next: MiddlewareNext) {
 	const { pathname } = context.url;
 
-	const redirectUrl = `/admin?redirect_to=${encodeURIComponent(pathname)}`;
+	const redirectUrl =
+		pathname !== "/admin"
+			? `/admin?redirect_to=${encodeURIComponent(pathname)}`
+			: "";
 
 	if (
 		pathname.startsWith("/admin/") &&
