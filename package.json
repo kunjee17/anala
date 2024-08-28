@@ -9,7 +9,8 @@
 		"preview": "astro preview",
 		"check:write": "pnpm biome check --write .",
 		"check": "pnpm biome check .",
-		"astro": "astro"
+		"astro": "astro",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.3",
@@ -45,6 +46,7 @@
 		"@types/dompurify": "^3.0.5",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
+		"husky": "^9.1.5",
 		"rimraf": "^6.0.1"
 	}
 }

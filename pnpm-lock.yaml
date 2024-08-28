@@ -99,6 +99,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
+      husky:
+        specifier: ^9.1.5
+        version: 9.1.5
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -2881,6 +2884,11 @@ packages:
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
+
+  husky@9.1.5:
+    resolution: {integrity: sha512-rowAVRUBfI0b4+niA4SJMhfQwc107VLkBUgEYYAOQAbqDCnra1nYh83hF/MDmhYs9t9n1E3DuKOrs2LYNC+0Ag==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
@@ -8078,6 +8086,8 @@ snapshots:
     optional: true
 
   human-signals@5.0.0: {}
+
+  husky@9.1.5: {}
 
   idb@7.1.1: {}
 
