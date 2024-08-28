@@ -240,14 +240,14 @@ export const AddOrEdit = ({
 											<DiffSourceToggleWrapper>
 												<ConditionalContents
 													options={[
-														// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 														{
+															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
 															when: (editor: any) =>
 																editor?.editorType === "codeblock",
 															contents: () => <ChangeCodeMirrorLanguage />,
 														},
-														// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 														{
+															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
 															when: (editor: any) =>
 																editor?.editorType === "sandpack",
 															contents: () => <ShowSandpackInfo />,

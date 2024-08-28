@@ -45,9 +45,9 @@ export const List = () => {
 						<Card key={blog.id} className="shadow-lg">
 							<Card.Body>
 								<Card.Title>{blog.title}</Card.Title>
-								{/* biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
 								<article
 									className="prose lg:prose-xl"
+									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> I know what I am doing </explanation>
 									dangerouslySetInnerHTML={{
 										__html: DOMPurify.sanitize(
 											marked(blog.content.substring(0, 40)) as string,
