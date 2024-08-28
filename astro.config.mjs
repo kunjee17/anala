@@ -16,6 +16,9 @@ export default defineConfig({
 		imageCDN: true,
 	}),
 	vite: {
+		build: {
+			chunkSizeWarningLimit: 2048, //Its server functions so size doesn't matter much
+		},
 		ssr: {
 			external: [],
 		},
