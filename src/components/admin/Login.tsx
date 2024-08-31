@@ -63,7 +63,7 @@ export const Login = () => {
 		},
 	});
 	return (
-		<div className="flex justify-center items-center w-full h-screen bg-white">
+		<div className="flex justify-center items-center w-full h-screen">
 			<Card bordered={true}>
 				<Card.Title className="justify-center items-center">Sign In</Card.Title>
 				<Card.Body>

@@ -1,35 +1,6 @@
-import {
-	BoldItalicUnderlineToggles,
-	ChangeCodeMirrorLanguage,
-	CodeToggle,
-	ConditionalContents,
-	CreateLink,
-	DiffSourceToggleWrapper,
-	InsertCodeBlock,
-	InsertFrontmatter,
-	InsertSandpack,
-	InsertTable,
-	InsertThematicBreak,
-	ListsToggle,
-	MDXEditor,
-	Separator,
-	ShowSandpackInfo,
-	StrikeThroughSupSubToggles,
-	UndoRedo,
-	codeMirrorPlugin,
-	diffSourcePlugin,
-	headingsPlugin,
-	linkDialogPlugin,
-	linkPlugin,
-	listsPlugin,
-	markdownShortcutPlugin,
-	quotePlugin,
-	tablePlugin,
-	thematicBreakPlugin,
-	toolbarPlugin,
-} from "@mdxeditor/editor";
 import { useForm } from "@tanstack/react-form";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
@@ -209,107 +180,13 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
-							<MDXEditor
-								markdown={field.state.value}
-								contentEditableClassName="prose"
-								plugins={[
-									headingsPlugin(),
-									diffSourcePlugin({
-										viewMode: "rich-text",
-										diffMarkdown: "boo",
-									}),
-									codeMirrorPlugin({
-										codeBlockLanguages: {
-											js: "JavaScript",
-											css: "CSS",
-											rust: "Rust",
-											txt: "Plain Text",
-											tsx: "TypeScript",
-											"": "Unspecified",
-										},
-									}),
-									quotePlugin(),
-									markdownShortcutPlugin(),
-									listsPlugin(),
-									linkPlugin(),
-									linkDialogPlugin(),
-									tablePlugin(),
-									thematicBreakPlugin(),
-									toolbarPlugin({
-										toolbarContents: () => (
-											<DiffSourceToggleWrapper>
-												<ConditionalContents
-													options={[
-														{
-															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
-															when: (editor: any) =>
-																editor?.editorType === "codeblock",
-															contents: () => <ChangeCodeMirrorLanguage />,
-														},
-														{
-															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
-															when: (editor: any) =>
-																editor?.editorType === "sandpack",
-															contents: () => <ShowSandpackInfo />,
-														},
-														{
-															fallback: () => (
-																<>
-																	<UndoRedo />
-																	<Separator />
-																	<BoldItalicUnderlineToggles />
-																	<CodeToggle />
-																	<Separator />
-																	<StrikeThroughSupSubToggles />
-																	<Separator />
-																	<ListsToggle />
-																	<Separator />
-
-																	{/*<ConditionalContents*/}
-																	{/*	options={[{ when: whenInAdmonition, contents: () => <ChangeAdmonitionType /> }, { fallback: () => <BlockTypeSelect /> }]}*/}
-																	{/*/>*/}
-
-																	<Separator />
-
-																	<CreateLink />
-																	{/*<InsertImage />*/}
-
-																	<Separator />
-
-																	<InsertTable />
-																	<InsertThematicBreak />
-
-																	<Separator />
-																	<InsertCodeBlock />
-																	<InsertSandpack />
-
-																	{/*<ConditionalContents*/}
-																	{/*	options={[*/}
-																	{/*		{*/}
-																	{/*			when: (editorInFocus) => !whenInAdmonition(editorInFocus),*/}
-																	{/*			contents: () => (*/}
-																	{/*				<>*/}
-																	{/*					<Separator />*/}
-																	{/*					<InsertAdmonition />*/}
-																	{/*				</>*/}
-																	{/*			)*/}
-																	{/*		}*/}
-																	{/*	]}*/}
-																	{/*/>*/}
-
-																	<Separator />
-																	<InsertFrontmatter />
-																</>
-															),
-														},
-													]}
-												/>
-											</DiffSourceToggleWrapper>
-										),
-									}),
-								]}
+							<MarkdownEditor
+								value={field.state.value}
 								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e)}
+								onChange={(value, viewUpdate) => {
+									console.log("ViewUpdate", viewUpdate);
+									field.handleChange(value);
+								}}
 							/>
 							<FieldInfo field={field} />
 						</>

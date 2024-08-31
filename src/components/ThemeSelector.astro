@@ -1,0 +1,71 @@
+---
+const themes = [
+	"light",
+	"dark",
+	"cupcake",
+	"bumblebee",
+	"emerald",
+	"corporate",
+	"synthwave",
+	"retro",
+	"cyberpunk",
+	"valentine",
+	"halloween",
+	"garden",
+	"forest",
+	"aqua",
+	"lofi",
+	"pastel",
+	"fantasy",
+	"wireframe",
+	"black",
+	"luxury",
+	"dracula",
+	"cmyk",
+	"autumn",
+	"business",
+	"acid",
+	"lemonade",
+	"night",
+	"coffee",
+	"winter",
+	"dim",
+	"nord",
+	"sunset",
+];
+---
+<div>
+    <label for="theme-selector" class="label label-text">Select Theme</label>
+    <select id="theme-selector" class="select">
+        {themes.map(theme => (
+                <option value={theme}>
+                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                </option>
+        ))}
+    </select>
+</div>
+
+<script>
+    const defaultTheme = "light";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selector = document.getElementById('theme-selector') as HTMLSelectElement;
+
+        const handleThemeChange = (event: Event) => {
+            const target = event.target as HTMLSelectElement;
+            const selectedTheme = target.value;
+            document.documentElement.setAttribute("data-theme", selectedTheme);
+            localStorage.setItem("selected-theme", selectedTheme);
+        };
+
+        selector?.addEventListener('change', handleThemeChange);
+
+        const savedTheme = localStorage.getItem("selected-theme") || defaultTheme;
+        document.documentElement.setAttribute("data-theme", savedTheme);
+
+        // Set the selected option in the dropdown based on the saved theme
+        if (selector) {
+            selector.value = savedTheme;
+        }
+    });
+</script>
