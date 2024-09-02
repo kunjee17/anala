@@ -1,5 +1,6 @@
 ---
 import { Nav } from "../components";
+import ThemeSelector from "../components/ThemeSelector.astro";
 import BaseLayout from "./BaseLayout.astro";
 interface Props {
 	title: string;
@@ -9,6 +10,11 @@ const { title } = Astro.props;
 ---
 
 <BaseLayout title={title}>
+    <div class="navbar bg-base-100 hidden">
+        <div class="navbar-end">
+            <ThemeSelector />
+        </div>
+    </div>
 <Nav client:only="react" />
 <slot />
 </BaseLayout>

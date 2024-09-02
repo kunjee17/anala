@@ -6,32 +6,13 @@ import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { FieldInfo } from "../FieldInfo.tsx";
-import type { Post, ShortTimeStamp } from "./types.ts";
+import type { Post } from "./types.ts";
 import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 
-import { Timestamp, collection, doc, writeBatch } from "firebase/firestore";
-import { firestore } from "../../../firebase/client.ts";
-
-const timeStampToDate = (timeStamp: ShortTimeStamp | Timestamp): Date => {
-	// Check if the input is an instance of Firestore Timestamp
-	if (timeStamp instanceof Timestamp) {
-		return timeStamp.toDate();
-	}
-
-	// If not, assume it's a ShortTimeStamp and manually create a Timestamp
-	return new Timestamp(timeStamp._seconds, timeStamp._nanoseconds).toDate();
-};
-
-const insertOrUpdateBlog = async (blog: Post) => {
-	console.log(blog);
-	const batch = writeBatch(firestore);
-	const blogs = collection(firestore, "posts");
-	const blogDoc = blog.id ? doc(blogs, blog.id) : doc(blogs);
-	batch.set(blogDoc, blog);
-
-	await batch.commit();
-};
+import { Timestamp } from "firebase/firestore";
+import { insertOrUpdatePost } from "../../../firebase/client.ts";
+import { timeStampToDate } from "../../../firebase/fireHelper.ts";
 
 export const AddOrEdit = ({
 	initialData,
@@ -54,8 +35,8 @@ export const AddOrEdit = ({
 			onSubmit: async ({ value }) => {
 				console.log(value);
 				try {
-					await insertOrUpdateBlog({ updatedAt: Timestamp.now(), ...value });
-					window.location.assign("/admin/blogs");
+					await insertOrUpdatePost({ updatedAt: Timestamp.now(), ...value });
+					window.location.assign("/admin/posts");
 				} catch (err: unknown) {
 					const e = err as Error;
 					setErrorMsg(e.message);

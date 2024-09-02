@@ -4,7 +4,6 @@ import { Markdown } from "astro-remote";
 import { siteConfig } from "../components/site/data";
 import Layout from "../layouts/Layout.astro";
 const { slug } = Astro.params;
-
 const page = siteConfig.pages.find((p) => p.href === `/${slug}`);
 if (!page) return Astro.redirect("/404");
 const { name, content } = page;

@@ -3,6 +3,10 @@
 import NavPageLinks from "./NavPageLinks.astro";
 import ThemeSelector from "./ThemeSelector.astro";
 import { siteConfig } from "./site/data";
+
+const allPages = [...siteConfig.pages, ...siteConfig.defaultPages]
+	.filter((p) => p.isVisible)
+	.sort((a, b) => (a.weight > b.weight ? 1 : -1));
 ---
 <div class="navbar bg-base-100">
     <div class="navbar-start">
@@ -24,14 +28,14 @@ import { siteConfig } from "./site/data";
             <ul
                     tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                <NavPageLinks pages={siteConfig.pages} />
+                <NavPageLinks pages={allPages} />
             </ul>
         </div>
         <a href="/" class="btn btn-ghost text-xl">{siteConfig.title}</a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-            <NavPageLinks pages={siteConfig.pages} />
+            <NavPageLinks pages={allPages} />
         </ul>
     </div>
     <div class="navbar-end">

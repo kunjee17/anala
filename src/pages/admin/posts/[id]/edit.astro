@@ -1,17 +1,14 @@
 ---
-import { AddOrEdit, type Post } from "../../../../components";
-import { firestore } from "../../../../firebase/server";
+import { AddOrEdit } from "../../../../components";
+import { getPostById } from "../../../../firebase/server";
 import AdminLayout from "../../../../layouts/AdminLayout.astro";
 const { id } = Astro.params;
 
-const docRef = firestore.collection("posts").doc(id || "");
-const docSnap = await docRef.get();
-const doc = docSnap.exists
-	? ({ id: docSnap.id, ...docSnap.data() } as Post)
-	: undefined;
+const post = await getPostById(id || "");
+
+if (!post) return Astro.redirect("/404");
 ---
 
-
-<AdminLayout title="Blogs - Edit">
-    <AddOrEdit initialData={doc} client:only="react"/>
+<AdminLayout title="Posts - Edit">
+    <AddOrEdit initialData={post} client:only="react"/>
 </AdminLayout>

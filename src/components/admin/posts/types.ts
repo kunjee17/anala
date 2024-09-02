@@ -9,11 +9,11 @@ export type Post = {
 	content: string;
 	author: string;
 	url: string;
-	createdAt: Timestamp | ShortTimeStamp;
-	updatedAt?: Timestamp | ShortTimeStamp;
+	createdAt: Timestamp | ShortTimestamp;
+	updatedAt?: Timestamp | ShortTimestamp;
 };
 
-export type ShortTimeStamp = {
+export type ShortTimestamp = {
 	_seconds: number;
 	_nanoseconds: number;
 };

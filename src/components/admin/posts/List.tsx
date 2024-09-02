@@ -1,19 +1,11 @@
 import { useAsync, useMountEffect } from "@react-hookz/web";
 import DOMPurify from "dompurify";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { marked } from "marked";
 import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
-import { firestore } from "../../../firebase/client.ts";
+import { deletePost, fetchPosts } from "../../../firebase/client.ts";
 import type { Post } from "./types.ts";
 
-const fetchBlogs = async () => {
-	const blogsCollection = collection(firestore, "posts");
-	const blogs = await getDocs(blogsCollection);
-	return blogs.docs.map((doc) => {
-		return { id: doc.id, ...doc.data() } as Post;
-	});
-};
 const removeHtmlFromMarkdown = (content: string) => {
 	const htmlContent = DOMPurify.sanitize(
 		marked(`${content.substring(0, 40)}...`) as string,
@@ -24,21 +16,20 @@ const removeHtmlFromMarkdown = (content: string) => {
 const confirmDelete = async (id?: string) => {
 	try {
 		if (id) {
-			const blogRef = doc(firestore, "posts", id);
-			await deleteDoc(blogRef);
-			console.log("Blog deleted successfully");
+			await deletePost(id);
+			console.log("Post deleted successfully");
 		} else {
 			console.log("No id to delete");
 		}
 	} catch (error) {
-		console.error("Error deleting blog:", error);
+		console.error("Error deleting post:", error);
 	}
 };
 
 export const List = () => {
-	const [state, action] = useAsync(() => fetchBlogs());
+	const [state, action] = useAsync(() => fetchPosts());
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedBlog, setSelectedBlog] = useState<Post | undefined>(undefined);
+	const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
 	useMountEffect(action.execute);
 	return (
 		<div>
@@ -47,28 +38,28 @@ export const List = () => {
 			</a>
 			{state.result && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-					{state.result.map((blog) => (
-						<Card key={blog.id} className="shadow-lg">
+					{state.result.map((post) => (
+						<Card key={post.id} className="shadow-lg">
 							<Card.Body>
-								<Card.Title>{blog.title}</Card.Title>
+								<Card.Title>{post.title}</Card.Title>
 								<article className="prose lg:prose-xl">
-									{removeHtmlFromMarkdown(blog.content)}
+									{removeHtmlFromMarkdown(post.content)}
 								</article>
 								<div className="flex justify-between mt-4">
 									<a
 										target={"_blank"}
-										href={blog.url}
+										href={post.url}
 										rel="noopener noreferrer"
 									>
 										<Button color="primary">View</Button>
 									</a>
-									<a href={`/admin/blogs/${blog.id}/edit`}>
+									<a href={`/admin/posts/${post.id}/edit`}>
 										<Button color="secondary">Edit</Button>
 									</a>
 									<Button
 										color={"error"}
 										onClick={() => {
-											setSelectedBlog(blog);
+											setSelectedPost(post);
 											setIsModalOpen(true);
 										}}
 									>
@@ -81,16 +72,15 @@ export const List = () => {
 					<Modal open={isModalOpen} responsive={true}>
 						<Modal.Header>Confirm Deletion</Modal.Header>
 						<Modal.Body>
-							Are you sure you want to delete the blog post "
-							{selectedBlog?.title}"?
+							Are you sure you want to delete the post "{selectedPost?.title}"?
 						</Modal.Body>
 						<Modal.Actions>
 							<Button
 								color="error"
 								onClick={async () => {
-									await confirmDelete(selectedBlog?.id);
+									await confirmDelete(selectedPost?.id);
 									setIsModalOpen(false);
-									setSelectedBlog(undefined);
+									setSelectedPost(undefined);
 									await action.execute();
 								}}
 							>

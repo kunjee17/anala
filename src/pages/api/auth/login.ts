@@ -1,10 +1,8 @@
 import type { APIRoute } from "astro";
-import { getAuth } from "firebase-admin/auth";
-import { app } from "../../../firebase/server";
+import { siteConfig } from "../../../components/site/data.ts";
+import { createSessionCookie, verifyIdToken } from "../../../firebase/server";
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
-	const auth = getAuth(app);
-
 	/* Get token from request headers */
 	const idToken = request.headers.get("Authorization")?.split("Bearer ")[1];
 	if (!idToken) {
@@ -13,16 +11,16 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 
 	/* Verify id token */
 	try {
-		await auth.verifyIdToken(idToken);
+		await verifyIdToken(idToken);
 	} catch (error) {
 		return new Response("Invalid token", { status: 401 });
 	}
 
 	/* Create and set session cookie */
-	const fiveDays = 60 * 60 * 24 * 5 * 1000;
-	const sessionCookie = await auth.createSessionCookie(idToken, {
-		expiresIn: fiveDays,
-	});
+	const sessionCookie = await createSessionCookie(
+		idToken,
+		siteConfig.sessionDays,
+	);
 
 	cookies.set("__session", sessionCookie, {
 		path: "/",
