@@ -38,7 +38,9 @@ export const List = () => {
 	useMountEffect(action.execute);
 	return (
 		<div>
-			Blog list with pagination - this pagination will be on client side
+			<a href={"/admin/blogs/add"}>
+				<Button>Add</Button>
+			</a>
 			{state.result && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{state.result.map((blog) => (
@@ -50,7 +52,7 @@ export const List = () => {
 									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> I know what I am doing </explanation>
 									dangerouslySetInnerHTML={{
 										__html: DOMPurify.sanitize(
-											marked(blog.content.substring(0, 40)) as string,
+											marked(`${blog.content.substring(0, 40)}...`) as string,
 										),
 									}}
 								/>

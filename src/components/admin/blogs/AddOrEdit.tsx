@@ -1,16 +1,27 @@
 import { useForm } from "@tanstack/react-form";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { formatDate } from "date-fns";
 import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { FieldInfo } from "../FieldInfo.tsx";
-import type { BlogPost } from "./Types.ts";
+import type { BlogPost, ShortTimeStamp } from "./Types.ts";
 import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 
-import { collection, doc, writeBatch } from "firebase/firestore";
+import { Timestamp, collection, doc, writeBatch } from "firebase/firestore";
 import { firestore } from "../../../firebase/client.ts";
+
+const timeStampToDate = (timeStamp: ShortTimeStamp | Timestamp): Date => {
+	// Check if the input is an instance of Firestore Timestamp
+	if (timeStamp instanceof Timestamp) {
+		return timeStamp.toDate();
+	}
+
+	// If not, assume it's a ShortTimeStamp and manually create a Timestamp
+	return new Timestamp(timeStamp._seconds, timeStamp._nanoseconds).toDate();
+};
 
 const insertOrUpdateBlog = async (blog: BlogPost) => {
 	console.log(blog);
@@ -26,6 +37,7 @@ export const AddOrEdit = ({
 	initialData,
 }: { initialData: BlogPost | undefined }) => {
 	const [errorMsg, setErrorMsg] = useState("");
+
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
 		useForm<BlogPost>({
 			defaultValues: initialData || {
@@ -36,13 +48,13 @@ export const AddOrEdit = ({
 				category: "",
 				title: "",
 				url: "",
-				createdAt: new Date(),
-				updatedAt: new Date(),
+				createdAt: Timestamp.now(),
+				updatedAt: Timestamp.now(),
 			},
 			onSubmit: async ({ value }) => {
 				console.log(value);
 				try {
-					await insertOrUpdateBlog({ updatedAt: new Date(), ...value });
+					await insertOrUpdateBlog({ updatedAt: Timestamp.now(), ...value });
 					window.location.assign("/admin/blogs");
 				} catch (err: unknown) {
 					const e = err as Error;
@@ -68,6 +80,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Author</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -88,6 +101,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Title</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -96,7 +110,10 @@ export const AddOrEdit = ({
 									setFieldValue("slug", slug);
 									setFieldValue(
 										"url",
-										slugToUrl(slug, getFieldValue("createdAt")),
+										slugToUrl(
+											slug,
+											timeStampToDate(getFieldValue("createdAt")),
+										),
 									);
 									field.handleBlur();
 								}}
@@ -104,6 +121,26 @@ export const AddOrEdit = ({
 								placeholder={"title"}
 							/>
 							<FieldInfo field={field} />
+						</>
+					)}
+				</Field>
+				<Field name={"createdAt"}>
+					{(field) => (
+						<>
+							<label className={"label label-text"}>Created At</label>
+							<Input
+								type={"date"}
+								value={formatDate(
+									timeStampToDate(field.state.value),
+									"yyyy-MM-dd",
+								)}
+								onBlur={field.handleBlur}
+								onChange={(e) =>
+									field.handleChange(
+										Timestamp.fromDate(new Date(e.target.value)),
+									)
+								}
+							/>
 						</>
 					)}
 				</Field>
@@ -116,13 +153,17 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Slug</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
 								onBlur={(e) => {
 									setFieldValue(
 										"url",
-										slugToUrl(e.target.value, getFieldValue("createdAt")),
+										slugToUrl(
+											e.target.value,
+											timeStampToDate(getFieldValue("createdAt")),
+										),
 									);
 									field.handleBlur();
 								}}
@@ -136,9 +177,10 @@ export const AddOrEdit = ({
 				<Field name={"tags"}>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Comma Seperated Tags</label>
 							<Input
 								type={"text"}
-								value={field.state.value}
+								value={field.state.value.join(", ")}
 								onBlur={field.handleBlur}
 								onChange={(e) =>
 									field.handleChange(
@@ -160,6 +202,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Category</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -180,9 +223,11 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Markdown Content</label>
 							<MarkdownEditor
 								value={field.state.value}
 								onBlur={field.handleBlur}
+								height={"300px"}
 								onChange={(value, viewUpdate) => {
 									console.log("ViewUpdate", viewUpdate);
 									field.handleChange(value);
