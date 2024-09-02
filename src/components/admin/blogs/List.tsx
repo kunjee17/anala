@@ -14,7 +14,13 @@ const fetchBlogs = async () => {
 		return { id: doc.id, ...doc.data() } as BlogPost;
 	});
 };
-
+const removeHtmlFromMarkdown = (content: string) => {
+	const htmlContent = DOMPurify.sanitize(
+		marked(`${content.substring(0, 40)}...`) as string,
+	);
+	const plainText = htmlContent.replace(/<[^>]+>/g, "");
+	return plainText.trim();
+};
 const confirmDelete = async (id?: string) => {
 	try {
 		if (id) {
@@ -47,15 +53,9 @@ export const List = () => {
 						<Card key={blog.id} className="shadow-lg">
 							<Card.Body>
 								<Card.Title>{blog.title}</Card.Title>
-								<article
-									className="prose lg:prose-xl"
-									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> I know what I am doing </explanation>
-									dangerouslySetInnerHTML={{
-										__html: DOMPurify.sanitize(
-											marked(`${blog.content.substring(0, 40)}...`) as string,
-										),
-									}}
-								/>
+								<article className="prose lg:prose-xl">
+									{removeHtmlFromMarkdown(blog.content)}
+								</article>
 								<div className="flex justify-between mt-4">
 									<a
 										target={"_blank"}
