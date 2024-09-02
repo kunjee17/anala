@@ -1,14 +1,15 @@
+
 ---
 import Nav from "../components/Nav.astro";
+import { getValueFromRemoteConfig } from "../firebase/server";
 import BaseLayout from "./BaseLayout.astro";
 interface Props {
-	title: string;
+	name: string;
 }
-
-const { title } = Astro.props;
+const { name } = Astro.props;
+const title = (await getValueFromRemoteConfig("title")) as string;
 ---
-<BaseLayout title={title}>
-	<Nav />
-
+<BaseLayout title={`${title} - ${name}`}>
+	<Nav title={title} />
 		<slot />
 </BaseLayout>

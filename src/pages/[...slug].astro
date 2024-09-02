@@ -1,5 +1,5 @@
----
 
+---
 import { Markdown } from "astro-remote";
 import { siteConfig } from "../components/site/data";
 import Layout from "../layouts/Layout.astro";
@@ -8,7 +8,7 @@ const page = siteConfig.pages.find((p) => p.href === `/${slug}`);
 if (!page) return Astro.redirect("/404");
 const { name, content } = page;
 ---
-<Layout title={ `${siteConfig.title} - ${name}`}>
+<Layout name={name}>
     Slug page is coming - {name || "Index"}.
     <article class="prose prose-lg w-full max-w-none px-0">
         <Markdown content={content || "NO DATA"} />

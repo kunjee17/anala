@@ -3,10 +3,13 @@
 import NavPageLinks from "./NavPageLinks.astro";
 import ThemeSelector from "./ThemeSelector.astro";
 import { siteConfig } from "./site/data";
-
+export type Props = {
+	title: string;
+};
 const allPages = [...siteConfig.pages, ...siteConfig.defaultPages]
 	.filter((p) => p.isVisible)
 	.sort((a, b) => (a.weight > b.weight ? 1 : -1));
+const { title } = Astro.props;
 ---
 <div class="navbar bg-base-100">
     <div class="navbar-start">
@@ -31,7 +34,7 @@ const allPages = [...siteConfig.pages, ...siteConfig.defaultPages]
                 <NavPageLinks pages={allPages} />
             </ul>
         </div>
-        <a href="/" class="btn btn-ghost text-xl">{siteConfig.title}</a>
+        <a href="/" class="btn btn-ghost text-xl">{title}</a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
