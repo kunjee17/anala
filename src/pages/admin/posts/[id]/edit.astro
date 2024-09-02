@@ -1,6 +1,5 @@
 ---
-import { AddOrEdit } from "../../../../components/admin/blogs";
-import type { BlogPost } from "../../../../components/admin/blogs/Types";
+import { AddOrEdit, type Post } from "../../../../components";
 import { firestore } from "../../../../firebase/server";
 import AdminLayout from "../../../../layouts/AdminLayout.astro";
 const { id } = Astro.params;
@@ -8,9 +7,8 @@ const { id } = Astro.params;
 const docRef = firestore.collection("posts").doc(id || "");
 const docSnap = await docRef.get();
 const doc = docSnap.exists
-	? ({ id: docSnap.id, ...docSnap.data() } as BlogPost)
+	? ({ id: docSnap.id, ...docSnap.data() } as Post)
 	: undefined;
-console.log(doc);
 ---
 
 

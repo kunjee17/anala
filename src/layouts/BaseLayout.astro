@@ -1,5 +1,4 @@
 ---
-import ThemeSelector from "../components/ThemeSelector.astro";
 interface Props {
 	title: string;
 }
@@ -18,7 +17,6 @@ const currentTheme = "cupcake"; //will come form firebase config
     <title>{title}</title>
 </head>
 <body>
-<ThemeSelector />
 <slot />
 </body>
 </html>

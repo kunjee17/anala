@@ -1,6 +1,6 @@
 import type { Timestamp } from "firebase/firestore";
 
-export type BlogPost = {
+export type Post = {
 	id?: string; // Optional because Firestore will generate this for new posts
 	slug: string;
 	title: string;

@@ -1,7 +1,7 @@
 ---
 
 import { Markdown } from "astro-remote";
-import type { BlogPost } from "../../../components/admin/blogs/Types";
+import type { Post } from "../../../components/admin/posts/types";
 import { firestore } from "../../../firebase/server";
 import Layout from "../../../layouts/Layout.astro";
 
@@ -14,7 +14,7 @@ const blogs = await firestore
 const blogSnap = blogs.docs[0];
 
 const blog = blogSnap?.exists
-	? ({ id: blogSnap.id, ...blogSnap.data() } as BlogPost)
+	? ({ id: blogSnap.id, ...blogSnap.data() } as Post)
 	: null;
 ---
 <Layout title="title of post">

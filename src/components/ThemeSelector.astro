@@ -34,8 +34,8 @@ const themes = [
 	"sunset",
 ];
 ---
-<div>
-    <label for="theme-selector" class="label label-text">Select Theme</label>
+<div class="flex items-center">
+    <label for="theme-selector" class="label label-text">Theme:</label>
     <select id="theme-selector" class="select">
         {themes.map(theme => (
                 <option value={theme}>

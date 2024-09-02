@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { FieldInfo } from "../FieldInfo.tsx";
-import type { BlogPost, ShortTimeStamp } from "./Types.ts";
+import type { Post, ShortTimeStamp } from "./types.ts";
 import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 
@@ -23,7 +23,7 @@ const timeStampToDate = (timeStamp: ShortTimeStamp | Timestamp): Date => {
 	return new Timestamp(timeStamp._seconds, timeStamp._nanoseconds).toDate();
 };
 
-const insertOrUpdateBlog = async (blog: BlogPost) => {
+const insertOrUpdateBlog = async (blog: Post) => {
 	console.log(blog);
 	const batch = writeBatch(firestore);
 	const blogs = collection(firestore, "posts");
@@ -35,11 +35,11 @@ const insertOrUpdateBlog = async (blog: BlogPost) => {
 
 export const AddOrEdit = ({
 	initialData,
-}: { initialData: BlogPost | undefined }) => {
+}: { initialData: Post | undefined }) => {
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
-		useForm<BlogPost>({
+		useForm<Post>({
 			defaultValues: initialData || {
 				author: "",
 				content: "",

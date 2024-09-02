@@ -5,13 +5,13 @@ import { marked } from "marked";
 import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
 import { firestore } from "../../../firebase/client.ts";
-import type { BlogPost } from "./Types.ts";
+import type { Post } from "./types.ts";
 
 const fetchBlogs = async () => {
 	const blogsCollection = collection(firestore, "posts");
 	const blogs = await getDocs(blogsCollection);
 	return blogs.docs.map((doc) => {
-		return { id: doc.id, ...doc.data() } as BlogPost;
+		return { id: doc.id, ...doc.data() } as Post;
 	});
 };
 const removeHtmlFromMarkdown = (content: string) => {
@@ -38,13 +38,11 @@ const confirmDelete = async (id?: string) => {
 export const List = () => {
 	const [state, action] = useAsync(() => fetchBlogs());
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedBlog, setSelectedBlog] = useState<BlogPost | undefined>(
-		undefined,
-	);
+	const [selectedBlog, setSelectedBlog] = useState<Post | undefined>(undefined);
 	useMountEffect(action.execute);
 	return (
 		<div>
-			<a href={"/admin/blogs/add"}>
+			<a href={"/admin/posts/add"}>
 				<Button>Add</Button>
 			</a>
 			{state.result && (
