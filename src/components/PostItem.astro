@@ -1,0 +1,21 @@
+---
+import { format } from "date-fns";
+import { type ShortPost, removeHtmlFromMarkdown } from "../helpers";
+export type Props = ShortPost;
+
+const { published_on, author, title, content, url } = Astro.props;
+---
+<div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+        <div class="flex justify-between items-center mb-2">
+            <div class="text-sm text-primary">Published on <span class="font-semibold"> {format(published_on, "MMMM dd, yyyy")} </span></div>
+            <div class="text-sm text-primary">by <span class="font-semibold">{author}</span></div>
+        </div>
+        <h2 class="card-title text-lg font-bold text-neutral-content">{title}</h2>
+        <p class="text-base-content mt-2">{removeHtmlFromMarkdown(content)}</p>
+        <div class="card-actions justify-end">
+            <a href={url} class="link link-primary mt-4">Read More</a>
+        </div>
+
+    </div>
+</div>

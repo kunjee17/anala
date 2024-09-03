@@ -1,18 +1,10 @@
 import { useAsync, useMountEffect } from "@react-hookz/web";
-import DOMPurify from "dompurify";
-import { marked } from "marked";
 import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
 import { deletePost, fetchPosts } from "../../../firebase/client.ts";
+import { removeHtmlFromMarkdown } from "../../../helpers";
 import type { Post } from "./types.ts";
 
-const removeHtmlFromMarkdown = (content: string) => {
-	const htmlContent = DOMPurify.sanitize(
-		marked(`${content.substring(0, 40)}...`) as string,
-	);
-	const plainText = htmlContent.replace(/<[^>]+>/g, "");
-	return plainText.trim();
-};
 const confirmDelete = async (id?: string) => {
 	try {
 		if (id) {

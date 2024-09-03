@@ -1,9 +1,5 @@
 import type { APIRoute } from "astro";
-import {
-	createSessionCookie,
-	getValueFromRemoteConfig,
-	verifyIdToken,
-} from "../../../firebase/server";
+import { createSessionCookie, verifyIdToken } from "../../../firebase/server";
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 	/* Get token from request headers */
@@ -19,10 +15,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 		return new Response("Invalid token", { status: 401 });
 	}
 
-	const days = (await getValueFromRemoteConfig(
-		"sessionDays",
-		"Number",
-	)) as number;
+	const days = import.meta.env.SITE_SESSION_DAYS;
 
 	/* Create and set session cookie */
 	const sessionCookie = await createSessionCookie(

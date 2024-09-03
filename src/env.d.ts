@@ -16,6 +16,10 @@ interface ImportMetaEnv {
 	readonly PUBLIC_FIREBASE_STORAGE_BUCKET: string;
 	readonly PUBLIC_FIREBASE_MESSAGING_SENDER_ID: string;
 	readonly PUBLIC_FIREBASE_APP_ID: string;
+	readonly PUBLIC_SLUG_DATE_FORMAT: string;
+	readonly SITE_TITLE: string;
+	readonly SITE_SESSION_DAYS: number;
+	readonly PUBLIC_SITE_POST_PER_PAGE: number;
 	readonly ALLOWED_EMAILS: string;
 }
 

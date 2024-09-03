@@ -1,6 +1,9 @@
 ---
 
-import Layout from "../layouts/Layout.astro";---
+import PostItemList from "../components/PostItemList.astro";
+import { dummyPosts, pageSize } from "../components/site/data";
+import Layout from "../layouts/Layout.astro";
+---
 <Layout name="Home">
-    Home Page
+    <PostItemList posts={dummyPosts} pageSize={pageSize()} currentPage={1} />
 </Layout>

@@ -1,0 +1,23 @@
+---
+export type Props = {
+	currentPage: number;
+	pageSize: number;
+};
+const { currentPage, pageSize } = Astro.props;
+const pageNos = Array.from({ length: pageSize }, (_, i) => i + 1);
+const isLastPage = currentPage === pageSize;
+const isFirstPage = currentPage === 1;
+---
+
+<!-- Pagination -->
+<div class="flex justify-center mt-8 space-x-2">
+    <button class="btn btn-outline btn-primary" disabled={isFirstPage}>Previous</button>
+    {pageNos.map(page => (
+            <button
+                    class={`btn btn-outline btn-primary ${page === currentPage ? 'btn-active' : ''}`}
+            >
+                {page}
+            </button>
+    ))}
+    <button class="btn btn-outline btn-primary" disabled={isLastPage}>Next</button>
+</div>

@@ -1,4 +1,6 @@
-// Mostly dumy data for Site. It should come from firebase config and allowed to be configurable
+// Mostly dummy data for Site. It should come from firebase config and allowed to be configurable
+
+import { type ShortPost, calculateTotalPages } from "../../helpers";
 
 export type Page = {
 	name: string;
@@ -9,15 +11,11 @@ export type Page = {
 };
 
 export type SiteConfig = {
-	sessionDays: number;
-	title: string;
 	pages: Page[];
 	defaultPages: Page[];
 };
 
 export const siteConfig: SiteConfig = {
-	title: "Anala",
-	sessionDays: 5,
 	pages: [
 		{
 			name: "About",
@@ -71,4 +69,29 @@ export const siteConfig: SiteConfig = {
 			isVisible: true,
 		},
 	],
+};
+
+export const dummyPosts: ShortPost[] = [
+	{
+		title: "Some Dumb Title",
+		published_on: new Date("2023-12-17"),
+		author: "Kunjan",
+		url: "2023/12/some-dumb-title",
+		content: "## Hi time to trim down markdown",
+	},
+	{
+		title: "Some Dumb Title 2",
+		published_on: new Date("2023-11-17"),
+		author: "Kunjan",
+		url: "2023/11/some-dumb-title-2",
+		content: "## Hi time to trim down markdown again",
+	},
+];
+
+export const pageSize = () => {
+	//Get Count form FireStore data
+	return calculateTotalPages(
+		dummyPosts.length,
+		import.meta.env.PUBLIC_SITE_POST_PER_PAGE,
+	);
 };

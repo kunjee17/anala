@@ -2,7 +2,6 @@ import type { ServiceAccount } from "firebase-admin";
 import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
-import { getRemoteConfig } from "firebase-admin/remote-config";
 import type { Post } from "../components";
 import { POSTS } from "./fireHelper.ts";
 
@@ -27,25 +26,6 @@ const app = !getApps().length
 
 const auth = getAuth(app);
 const firestore = app ? getFirestore(app) : getFirestore();
-const remoteConfig = app ? getRemoteConfig(app) : getRemoteConfig();
-
-export type RemoteConfigType = "String" | "Number" | "Boolean";
-
-export const getValueFromRemoteConfig = async (
-	key: string,
-	type: RemoteConfigType = "String",
-) => {
-	const template = await remoteConfig.getServerTemplate();
-	const config = template.evaluate();
-	switch (type) {
-		case "String":
-			return config.getString(key);
-		case "Number":
-			return config.getNumber(key);
-		case "Boolean":
-			return config.getBoolean(key);
-	}
-};
 
 /**
  * Verify ID Token that is being passed from client
