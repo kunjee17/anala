@@ -1,0 +1,14 @@
+---
+import { AddOrEdit } from "../../../../components";
+import { getPostById } from "../../../../firebase/server";
+import AdminLayout from "../../../../layouts/AdminLayout.astro";
+const { id } = Astro.params;
+
+const post = await getPostById(id || "");
+
+if (!post) return Astro.redirect("/404");
+---
+
+<AdminLayout title="Posts - Edit">
+    <AddOrEdit initialData={post} client:only="react"/>
+</AdminLayout>

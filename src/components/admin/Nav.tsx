@@ -30,7 +30,7 @@ export const Nav = () => {
 							</svg>
 						</Button>
 						<Dropdown.Menu tabIndex={0} className="w-52 menu-sm mt-3 z-[1]">
-							<Dropdown.Item href={"/admin/blogs"}>Blogs</Dropdown.Item>
+							<Dropdown.Item href={"/admin/posts"}>Blogs</Dropdown.Item>
 							<li>
 								<a href={"#/"}>Extra</a>
 								<ul className="p-2">
@@ -55,7 +55,7 @@ export const Nav = () => {
 				<Navbar.Center className="hidden lg:flex">
 					<Menu horizontal className="px-1">
 						<Menu.Item>
-							<a href={"/admin/blogs"}>Blogs</a>
+							<a href={"/admin/posts"}>Posts</a>
 						</Menu.Item>
 						<Menu.Item>
 							<details>

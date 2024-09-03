@@ -1,62 +1,26 @@
-import {
-	BoldItalicUnderlineToggles,
-	ChangeCodeMirrorLanguage,
-	CodeToggle,
-	ConditionalContents,
-	CreateLink,
-	DiffSourceToggleWrapper,
-	InsertCodeBlock,
-	InsertFrontmatter,
-	InsertSandpack,
-	InsertTable,
-	InsertThematicBreak,
-	ListsToggle,
-	MDXEditor,
-	Separator,
-	ShowSandpackInfo,
-	StrikeThroughSupSubToggles,
-	UndoRedo,
-	codeMirrorPlugin,
-	diffSourcePlugin,
-	headingsPlugin,
-	linkDialogPlugin,
-	linkPlugin,
-	listsPlugin,
-	markdownShortcutPlugin,
-	quotePlugin,
-	tablePlugin,
-	thematicBreakPlugin,
-	toolbarPlugin,
-} from "@mdxeditor/editor";
 import { useForm } from "@tanstack/react-form";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
+import MarkdownEditor from "@uiw/react-markdown-editor";
+import { formatDate } from "date-fns";
 import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { FieldInfo } from "../FieldInfo.tsx";
-import type { BlogPost } from "./Types.ts";
+import type { Post } from "./types.ts";
 import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 
-import { collection, doc, writeBatch } from "firebase/firestore";
-import { firestore } from "../../../firebase/client.ts";
-
-const insertOrUpdateBlog = async (blog: BlogPost) => {
-	console.log(blog);
-	const batch = writeBatch(firestore);
-	const blogs = collection(firestore, "posts");
-	const blogDoc = blog.id ? doc(blogs, blog.id) : doc(blogs);
-	batch.set(blogDoc, blog);
-
-	await batch.commit();
-};
+import { Timestamp } from "firebase/firestore";
+import { insertOrUpdatePost } from "../../../firebase/client.ts";
+import { timeStampToDate } from "../../../firebase/fireHelper.ts";
 
 export const AddOrEdit = ({
 	initialData,
-}: { initialData: BlogPost | undefined }) => {
+}: { initialData: Post | undefined }) => {
 	const [errorMsg, setErrorMsg] = useState("");
+
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
-		useForm<BlogPost>({
+		useForm<Post>({
 			defaultValues: initialData || {
 				author: "",
 				content: "",
@@ -65,14 +29,14 @@ export const AddOrEdit = ({
 				category: "",
 				title: "",
 				url: "",
-				createdAt: new Date(),
-				updatedAt: new Date(),
+				createdAt: Timestamp.now(),
+				updatedAt: Timestamp.now(),
 			},
 			onSubmit: async ({ value }) => {
 				console.log(value);
 				try {
-					await insertOrUpdateBlog({ updatedAt: new Date(), ...value });
-					window.location.assign("/admin/blogs");
+					await insertOrUpdatePost({ updatedAt: Timestamp.now(), ...value });
+					window.location.assign("/admin/posts");
 				} catch (err: unknown) {
 					const e = err as Error;
 					setErrorMsg(e.message);
@@ -97,6 +61,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Author</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -117,6 +82,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Title</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -125,7 +91,10 @@ export const AddOrEdit = ({
 									setFieldValue("slug", slug);
 									setFieldValue(
 										"url",
-										slugToUrl(slug, getFieldValue("createdAt")),
+										slugToUrl(
+											slug,
+											timeStampToDate(getFieldValue("createdAt")),
+										),
 									);
 									field.handleBlur();
 								}}
@@ -133,6 +102,26 @@ export const AddOrEdit = ({
 								placeholder={"title"}
 							/>
 							<FieldInfo field={field} />
+						</>
+					)}
+				</Field>
+				<Field name={"createdAt"}>
+					{(field) => (
+						<>
+							<label className={"label label-text"}>Created At</label>
+							<Input
+								type={"date"}
+								value={formatDate(
+									timeStampToDate(field.state.value),
+									"yyyy-MM-dd",
+								)}
+								onBlur={field.handleBlur}
+								onChange={(e) =>
+									field.handleChange(
+										Timestamp.fromDate(new Date(e.target.value)),
+									)
+								}
+							/>
 						</>
 					)}
 				</Field>
@@ -145,13 +134,17 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Slug</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
 								onBlur={(e) => {
 									setFieldValue(
 										"url",
-										slugToUrl(e.target.value, getFieldValue("createdAt")),
+										slugToUrl(
+											e.target.value,
+											timeStampToDate(getFieldValue("createdAt")),
+										),
 									);
 									field.handleBlur();
 								}}
@@ -165,9 +158,10 @@ export const AddOrEdit = ({
 				<Field name={"tags"}>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Comma Seperated Tags</label>
 							<Input
 								type={"text"}
-								value={field.state.value}
+								value={field.state.value.join(", ")}
 								onBlur={field.handleBlur}
 								onChange={(e) =>
 									field.handleChange(
@@ -189,6 +183,7 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
+							<label className={"label label-text"}>Category</label>
 							<Input
 								type={"text"}
 								value={field.state.value}
@@ -209,107 +204,15 @@ export const AddOrEdit = ({
 				>
 					{(field) => (
 						<>
-							<MDXEditor
-								markdown={field.state.value}
-								contentEditableClassName="prose"
-								plugins={[
-									headingsPlugin(),
-									diffSourcePlugin({
-										viewMode: "rich-text",
-										diffMarkdown: "boo",
-									}),
-									codeMirrorPlugin({
-										codeBlockLanguages: {
-											js: "JavaScript",
-											css: "CSS",
-											rust: "Rust",
-											txt: "Plain Text",
-											tsx: "TypeScript",
-											"": "Unspecified",
-										},
-									}),
-									quotePlugin(),
-									markdownShortcutPlugin(),
-									listsPlugin(),
-									linkPlugin(),
-									linkDialogPlugin(),
-									tablePlugin(),
-									thematicBreakPlugin(),
-									toolbarPlugin({
-										toolbarContents: () => (
-											<DiffSourceToggleWrapper>
-												<ConditionalContents
-													options={[
-														{
-															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
-															when: (editor: any) =>
-																editor?.editorType === "codeblock",
-															contents: () => <ChangeCodeMirrorLanguage />,
-														},
-														{
-															// biome-ignore lint/suspicious/noExplicitAny: <explanation> Copy pasted code </explanation>
-															when: (editor: any) =>
-																editor?.editorType === "sandpack",
-															contents: () => <ShowSandpackInfo />,
-														},
-														{
-															fallback: () => (
-																<>
-																	<UndoRedo />
-																	<Separator />
-																	<BoldItalicUnderlineToggles />
-																	<CodeToggle />
-																	<Separator />
-																	<StrikeThroughSupSubToggles />
-																	<Separator />
-																	<ListsToggle />
-																	<Separator />
-
-																	{/*<ConditionalContents*/}
-																	{/*	options={[{ when: whenInAdmonition, contents: () => <ChangeAdmonitionType /> }, { fallback: () => <BlockTypeSelect /> }]}*/}
-																	{/*/>*/}
-
-																	<Separator />
-
-																	<CreateLink />
-																	{/*<InsertImage />*/}
-
-																	<Separator />
-
-																	<InsertTable />
-																	<InsertThematicBreak />
-
-																	<Separator />
-																	<InsertCodeBlock />
-																	<InsertSandpack />
-
-																	{/*<ConditionalContents*/}
-																	{/*	options={[*/}
-																	{/*		{*/}
-																	{/*			when: (editorInFocus) => !whenInAdmonition(editorInFocus),*/}
-																	{/*			contents: () => (*/}
-																	{/*				<>*/}
-																	{/*					<Separator />*/}
-																	{/*					<InsertAdmonition />*/}
-																	{/*				</>*/}
-																	{/*			)*/}
-																	{/*		}*/}
-																	{/*	]}*/}
-																	{/*/>*/}
-
-																	<Separator />
-																	<InsertFrontmatter />
-																</>
-															),
-														},
-													]}
-												/>
-											</DiffSourceToggleWrapper>
-										),
-									}),
-								]}
+							<label className={"label label-text"}>Markdown Content</label>
+							<MarkdownEditor
+								value={field.state.value}
 								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e)}
+								height={"300px"}
+								onChange={(value, viewUpdate) => {
+									console.log("ViewUpdate", viewUpdate);
+									field.handleChange(value);
+								}}
 							/>
 							<FieldInfo field={field} />
 						</>

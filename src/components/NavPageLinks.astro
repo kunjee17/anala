@@ -1,0 +1,10 @@
+---
+import type { Page } from "./site/data";
+export type Props = {
+	pages: Page[];
+};
+const { pages } = Astro.props;
+---
+{pages.map((page) => (
+        <li><a href={page.href}>{page.name}</a></li>
+    ))}

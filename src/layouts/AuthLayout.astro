@@ -1,23 +1,15 @@
 ---
-
-
-const currentTheme = "cupcake"; //will come form firebase config
+import ThemeSelector from "../components/ThemeSelector.astro";
+import BaseLayout from "./BaseLayout.astro";
 ---
 
-<!doctype html>
-<html data-theme={currentTheme} lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{"Authentication"}</title>
-</head>
-<body>
+<BaseLayout title="Auth">
 <div class="container mx-auto px-4">
+    <div class="navbar bg-base-100 hidden">
+        <div class="navbar-end">
+            <ThemeSelector />
+        </div>
+    </div>
 <slot />
 </div>
-</body>
-</html>
-
+</BaseLayout>
