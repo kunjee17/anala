@@ -369,3 +369,5 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,astro,node,react,visualstudiocode,webstorm+all
 
+# Generated Route file ignored. It will be generated everytime when build happens
+routeTree.gen.ts

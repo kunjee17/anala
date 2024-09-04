@@ -16,7 +16,8 @@
 			".netlify",
 			".astro",
 			".vscode",
-			"public"
+			"public",
+			"routeTree.gen.ts"
 		]
 	}
 }

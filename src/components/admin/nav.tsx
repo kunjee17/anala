@@ -1,5 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import { Button, Dropdown, Menu, Navbar } from "react-daisyui";
-import { Logout } from "./Logout.tsx";
+import { Logout } from "./logout.tsx";
 
 export const Nav = () => {
 	return (
@@ -30,48 +31,47 @@ export const Nav = () => {
 							</svg>
 						</Button>
 						<Dropdown.Menu tabIndex={0} className="w-52 menu-sm mt-3 z-[1]">
-							<Dropdown.Item href={"/admin/posts"}>Blogs</Dropdown.Item>
+							{/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <explanation> */}
+							<li role="menuitem">
+								<Link to="/posts"> Posts </Link>
+							</li>
 							<li>
 								<a href={"#/"}>Extra</a>
 								<ul className="p-2">
 									<li>
-										<a href={"/admin/settings"}>Settings</a>
-									</li>
-									<li>
-										<a href={"/admin/theme"}>Theme</a>
+										<Link to="/settings">Settings</Link>
 									</li>
 								</ul>
 							</li>
-							<Dropdown.Item href={"/admin/account"}>Account</Dropdown.Item>
+
+							{/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <explanation> */}
+							<li role="menuitem">
+								<Link to="/account"> Account </Link>
+							</li>
 						</Dropdown.Menu>
 					</Dropdown>
-					<a
-						href={"/admin/dashboard"}
-						className="btn btn-ghost normal-case text-xl"
-					>
-						Dashboard
-					</a>
+					<Link to="/dashboard" className="btn btn-ghost normal-case text-xl">
+						{" "}
+						Dashboard{" "}
+					</Link>
 				</Navbar.Start>
 				<Navbar.Center className="hidden lg:flex">
 					<Menu horizontal className="px-1">
 						<Menu.Item>
-							<a href={"/admin/posts"}>Posts</a>
+							<Link to="/posts"> Posts </Link>
 						</Menu.Item>
 						<Menu.Item>
 							<details>
 								<summary>Extra</summary>
 								<ul className="p-2">
 									<Menu.Item>
-										<a href={"/admin/settings"}>Settings</a>
-									</Menu.Item>
-									<Menu.Item>
-										<a href={"/admin/theme"}>Theme</a>
+										<Link to={"/settings"}>Settings</Link>
 									</Menu.Item>
 								</ul>
 							</details>
 						</Menu.Item>
 						<Menu.Item>
-							<a href={"/admin/account"}>Account</a>
+							<Link to="/account"> Account </Link>
 						</Menu.Item>
 					</Menu>
 				</Navbar.Center>

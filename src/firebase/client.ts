@@ -8,6 +8,7 @@ import {
 	collection,
 	deleteDoc,
 	doc,
+	getDoc,
 	getDocs,
 	getFirestore,
 	writeBatch,
@@ -56,4 +57,15 @@ export const fetchPosts = async () => {
 export const deletePost = async (id: string) => {
 	const postRef = doc(firestore, POSTS, id);
 	await deleteDoc(postRef);
+};
+
+export const getPostById = async (id: string) => {
+	const postDoc = doc(firestore, POSTS, id);
+	const docSnapshot = await getDoc(postDoc);
+
+	if (docSnapshot.exists()) {
+		return { id: docSnapshot.id, ...docSnapshot.data() } as Post;
+	}
+
+	return null;
 };

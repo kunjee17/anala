@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "rimraf dist && astro check && astro build",
+		"build": "rimraf dist && tsr generate && astro check && astro build",
 		"preview": "astro preview",
 		"check:write": "pnpm biome check --write .",
 		"check": "pnpm biome check .",
@@ -21,6 +21,7 @@
 		"@react-hookz/web": "^24.0.4",
 		"@tailwindcss/typography": "^0.5.14",
 		"@tanstack/react-form": "^0.29.2",
+		"@tanstack/react-router": "^1.53.1",
 		"@tanstack/valibot-form-adapter": "^0.29.2",
 		"@tanstack/zod-form-adapter": "^0.29.2",
 		"@uiw/react-markdown-editor": "^6.1.2",
@@ -43,6 +44,9 @@
 	"packageManager": "pnpm@9.6.0",
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
+		"@tanstack/router-cli": "^1.52.0",
+		"@tanstack/router-devtools": "^1.53.1",
+		"@tanstack/router-plugin": "^1.52.0",
 		"@types/dompurify": "^3.0.5",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",

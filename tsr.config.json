@@ -1,0 +1,4 @@
+{
+	"routesDirectory": "./src/components/admin/routes",
+	"generatedRouteTree": "./src/components/admin/routeTree.gen.ts"
+}

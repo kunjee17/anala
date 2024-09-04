@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Alert, Button, Card, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { getAuth, googleAuthProvider } from "../../firebase/client.ts";
-import { FieldInfo } from "./FieldInfo.tsx";
+import { FieldInfo } from "./fieldInfo.tsx";
 
 type SignInDTO = {
 	email: string;

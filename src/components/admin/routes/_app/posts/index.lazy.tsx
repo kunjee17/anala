@@ -1,9 +1,14 @@
 import { useAsync, useMountEffect } from "@react-hookz/web";
+import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
-import { deletePost, fetchPosts } from "../../../firebase/client.ts";
-import { removeHtmlFromMarkdown } from "../../../helpers";
-import type { Post } from "./types.ts";
+import { deletePost, fetchPosts } from "../../../../../firebase/client.ts";
+import { removeHtmlFromMarkdown } from "../../../../../helpers";
+import type { Post } from "../../../posts";
+
+export const Route = createLazyFileRoute("/_app/posts/")({
+	component: List,
+});
 
 const confirmDelete = async (id?: string) => {
 	try {
@@ -18,16 +23,18 @@ const confirmDelete = async (id?: string) => {
 	}
 };
 
-export const List = () => {
+function List() {
 	const [state, action] = useAsync(() => fetchPosts());
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
 	useMountEffect(action.execute);
 	return (
 		<div>
-			<a href={"/admin/posts/add"}>
-				<Button>Add</Button>
-			</a>
+			<Link to="/posts/add" className="btn btn-ghost normal-case">
+				{" "}
+				Add{" "}
+			</Link>
+
 			{state.result && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{state.result.map((post) => (
@@ -45,9 +52,16 @@ export const List = () => {
 									>
 										<Button color="primary">View</Button>
 									</a>
-									<a href={`/admin/posts/${post.id}/edit`}>
-										<Button color="secondary">Edit</Button>
-									</a>
+									<Link
+										className="btn btn-secondary"
+										to="/posts/$id/edit"
+										params={{
+											id: post.id || "",
+										}}
+									>
+										{" "}
+										Edit{" "}
+									</Link>
 									<Button
 										color={"error"}
 										onClick={() => {
@@ -85,4 +99,4 @@ export const List = () => {
 			)}
 		</div>
 	);
-};
+}

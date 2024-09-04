@@ -5,10 +5,9 @@ import { formatDate } from "date-fns";
 import { useState } from "react";
 import { Alert, Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
-import { FieldInfo } from "../FieldInfo.tsx";
-import type { Post } from "./types.ts";
-import "@mdxeditor/editor/style.css";
 import { slugToUrl, titleToSlug } from "../../../helpers";
+import { FieldInfo } from "../fieldInfo.tsx";
+import type { Post } from "./types.ts";
 
 import { Timestamp } from "firebase/firestore";
 import { insertOrUpdatePost } from "../../../firebase/client.ts";
@@ -16,7 +15,7 @@ import { timeStampToDate } from "../../../firebase/fireHelper.ts";
 
 export const AddOrEdit = ({
 	initialData,
-}: { initialData: Post | undefined }) => {
+}: { initialData: Post | null | undefined }) => {
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
