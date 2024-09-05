@@ -33,6 +33,10 @@ export const Nav = () => {
 						<Dropdown.Menu tabIndex={0} className="w-52 menu-sm mt-3 z-[1]">
 							{/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <explanation> */}
 							<li role="menuitem">
+								<Link to="/pages"> Pages </Link>
+							</li>
+							{/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <explanation> */}
+							<li role="menuitem">
 								<Link to="/posts"> Posts </Link>
 							</li>
 							<li>
@@ -57,6 +61,9 @@ export const Nav = () => {
 				</Navbar.Start>
 				<Navbar.Center className="hidden lg:flex">
 					<Menu horizontal className="px-1">
+						<Menu.Item>
+							<Link to="/pages"> Pages </Link>
+						</Menu.Item>
 						<Menu.Item>
 							<Link to="/posts"> Posts </Link>
 						</Menu.Item>

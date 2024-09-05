@@ -3,7 +3,7 @@ import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { formatDate } from "date-fns";
 import { useState } from "react";
-import { Alert, Button, Form, Input } from "react-daisyui";
+import { Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { slugToUrl, titleToSlug } from "../../../helpers";
 import { FieldInfo } from "../fieldInfo.tsx";
@@ -12,10 +12,12 @@ import type { Post } from "./types.ts";
 import { Timestamp } from "firebase/firestore";
 import { insertOrUpdatePost } from "../../../firebase/client.ts";
 import { timeStampToDate } from "../../../firebase/fireHelper.ts";
+import { ErrorMsg } from "../errorMsg.tsx";
 
 export const AddOrEdit = ({
 	initialData,
-}: { initialData: Post | null | undefined }) => {
+	successFn,
+}: { initialData: Post | null | undefined; successFn: () => void }) => {
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const { Field, Subscribe, handleSubmit, setFieldValue, getFieldValue } =
@@ -35,7 +37,7 @@ export const AddOrEdit = ({
 				console.log(value);
 				try {
 					await insertOrUpdatePost({ updatedAt: Timestamp.now(), ...value });
-					window.location.assign("/admin/posts");
+					successFn();
 				} catch (err: unknown) {
 					const e = err as Error;
 					setErrorMsg(e.message);
@@ -225,29 +227,7 @@ export const AddOrEdit = ({
 					)}
 				</Subscribe>
 			</Form>
-			{errorMsg && (
-				<Alert
-					status={"error"}
-					icon={
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="stroke-current shrink-0 h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-						>
-							<title>Error Icon</title>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-					}
-				>
-					{errorMsg}{" "}
-				</Alert>
-			)}
+			<ErrorMsg errorMsg={errorMsg} />
 		</>
 	);
 };

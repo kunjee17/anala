@@ -19,7 +19,7 @@ export default defineConfig({
 	vite: {
 		plugins: [TanStackRouterVite()],
 		build: {
-			chunkSizeWarningLimit: 2048, //Its server functions so size doesn't matter much
+			chunkSizeWarningLimit: 3072, //Its server functions so size doesn't matter much
 		},
 		ssr: {
 			external: [],

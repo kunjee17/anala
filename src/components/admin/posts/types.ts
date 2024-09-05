@@ -17,3 +17,11 @@ export type ShortTimestamp = {
 	_seconds: number;
 	_nanoseconds: number;
 };
+
+export type ShortPost = {
+	published_on: Date;
+	author: string;
+	title: string;
+	content: string;
+	url: string;
+};
