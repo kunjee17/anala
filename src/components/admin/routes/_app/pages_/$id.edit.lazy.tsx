@@ -1,7 +1,7 @@
 import { useAsync, useMountEffect } from "@react-hookz/web";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getPageById } from "../../../../../firebase/client.ts";
-import { ErrorMsg } from "../../../errorMsg.tsx";
+import { ErrorMsg } from "../../../components/errorMsg.tsx";
 import { AddOrEdit } from "../../../pages";
 
 export const Route = createLazyFileRoute("/_app/pages/$id/edit")({
@@ -29,5 +29,5 @@ function Edit() {
 		);
 	}
 
-	return <div>Loading</div>;
+	return <span className="loading loading-spinner loading-lg" />;
 }

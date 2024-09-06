@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
 import { deletePost, fetchPosts } from "../../../../../firebase/client.ts";
 import { deleteById, removeHtmlFromMarkdown } from "../../../../../helpers";
-import { ErrorMsg } from "../../../errorMsg.tsx";
+import { ErrorMsg } from "../../../components/errorMsg.tsx";
 import type { Post } from "../../../posts";
 
 export const Route = createLazyFileRoute("/_app/posts/")({

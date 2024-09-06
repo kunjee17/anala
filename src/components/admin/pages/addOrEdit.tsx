@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { insertOrUpdatePage } from "../../../firebase/client.ts";
-import { ErrorMsg } from "../errorMsg.tsx";
-import { FieldInfo } from "../fieldInfo.tsx";
+import { ErrorMsg } from "../components/errorMsg.tsx";
+import { FieldInfo } from "../components/fieldInfo.tsx";
 import type { AnalaPage } from "./types.ts";
 
 export const AddOrEdit = ({

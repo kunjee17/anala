@@ -1,8 +1,8 @@
 // Mostly dummy data for Site. It should come from firebase config and allowed to be configurable
 
 import { calculateTotalPages } from "../../helpers";
-import type { ShortPost } from "../admin";
 import type { AnalaPage } from "../admin/pages";
+import type { ShortPost } from "../admin/posts";
 
 export type SiteConfig = {
 	pages: AnalaPage[];

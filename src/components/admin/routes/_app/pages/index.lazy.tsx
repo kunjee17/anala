@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button, Card, Modal } from "react-daisyui";
 import { deletePage, fetchPages } from "../../../../../firebase/client.ts";
 import { deleteById, removeHtmlFromMarkdown } from "../../../../../helpers";
-import { ErrorMsg } from "../../../errorMsg.tsx";
+import { ErrorMsg } from "../../../components/errorMsg.tsx";
 import type { AnalaPage } from "../../../pages";
 
 export const Route = createLazyFileRoute("/_app/pages/")({

@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { ThemeSettings } from "../../themeSettings.tsx";
+import { ThemeSettings } from "../../components/themeSettings.tsx";
 
 export const Route = createLazyFileRoute("/_app/settings")({
 	component: () => (

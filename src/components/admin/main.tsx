@@ -3,6 +3,8 @@ import {
 	createHashHistory,
 	createRouter,
 } from "@tanstack/react-router";
+import { StrictMode } from "react";
+import { AuthProvider, useAuth } from "./providers/auth.tsx";
 import { routeTree } from "./routeTree.gen.ts";
 
 const hashHistory = createHashHistory();
@@ -17,11 +19,17 @@ declare module "@tanstack/react-router" {
 	}
 }
 
+function InnerApp() {
+	const auth = useAuth();
+	return <RouterProvider router={router} context={{ auth }} />;
+}
+
 export const Main = () => {
 	return (
-		<>
-			This is main from React
-			<RouterProvider router={router} />{" "}
-		</>
+		<StrictMode>
+			<AuthProvider>
+				<InnerApp />
+			</AuthProvider>
+		</StrictMode>
 	);
 };

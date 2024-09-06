@@ -2,7 +2,7 @@ import type { ServiceAccount } from "firebase-admin";
 import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
-import type { Post } from "../components";
+import type { Post } from "../components/admin/posts";
 import { POSTS } from "./fireHelper.ts";
 
 const serviceAccount = {

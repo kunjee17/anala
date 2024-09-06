@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Button, Dropdown, Menu, Navbar } from "react-daisyui";
 import { Logout } from "./logout.tsx";
 
-export const Nav = () => {
+export const Nav = ({ logout }: { logout: () => Promise<void> }) => {
 	return (
 		<>
 			<Navbar>
@@ -83,7 +83,7 @@ export const Nav = () => {
 					</Menu>
 				</Navbar.Center>
 				<Navbar.End>
-					<Logout />
+					<Logout logout={logout} />
 				</Navbar.End>
 			</Navbar>
 		</>

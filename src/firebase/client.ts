@@ -14,8 +14,8 @@ import {
 	setDoc,
 	writeBatch,
 } from "firebase/firestore";
-import type { Post } from "../components";
 import type { AnalaPage } from "../components/admin/pages";
+import type { Post } from "../components/admin/posts";
 import { PAGES, POSTS } from "./fireHelper.ts";
 
 const firebaseConfig = {
@@ -30,11 +30,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const firestore = getFirestore(app);
+let authInstance: ReturnType<typeof getAuthFirebase> | null = null;
 export const getAuth = async () => {
-	const auth = getAuthFirebase(app);
-	/* This will set the persistence to session */
-	await auth.setPersistence(browserSessionPersistence);
-	return auth;
+	if (!authInstance) {
+		authInstance = getAuthFirebase(app);
+		/* Set persistence once during initialization */
+		await authInstance.setPersistence(browserSessionPersistence);
+	}
+	return authInstance;
 };
 export const googleAuthProvider = new GoogleAuthProvider();
 
