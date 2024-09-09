@@ -1,16 +1,32 @@
 
 ---
 import { Markdown } from "astro-remote";
-import { siteConfig } from "../components/site/data";
+import type { AnalaPage } from "../components/admin/pages";
+import type { Post } from "../components/admin/posts";
+import { getPageOrPostBySlug } from "../firebase/server";
 import Layout from "../layouts/Layout.astro";
 const { slug } = Astro.params;
-const page = siteConfig.pages.find((p) => p.href === `/${slug}`);
-if (!page) return Astro.redirect("/404");
-const { name, content } = page;
+
+if (!slug) return Astro.redirect("/404");
+const pageOrPost = await getPageOrPostBySlug(slug);
+if (!pageOrPost) return Astro.redirect("/404");
+const { type, data } = pageOrPost;
+const pageData = data as AnalaPage;
+const postData = data as Post;
 ---
-<Layout name={name}>
-    Slug page is coming - {name || "Index"}.
+{type === "Page" && (<Layout name={pageData.name}>
+    Slug page is coming - {pageData.name || "Index"}.
     <article class="prose prose-lg w-full max-w-none px-0">
-        <Markdown content={content || "NO DATA"} />
+        <Markdown content={pageData.content || "NO DATA"} />
     </article>
-</Layout>
+</Layout>)}
+
+{type === "Post" && (<Layout name={postData.title}>
+    <div class="container mx-auto p-4  ">
+        Something should be here
+       Some date and author will come here.
+        <article class="prose prose-lg w-full max-w-none px-0">
+            <Markdown content={postData.content || "NO DATA"} />
+        </article>
+    </div>
+</Layout>)}

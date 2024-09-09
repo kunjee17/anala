@@ -1,21 +1,17 @@
 ---
-import { Nav } from "../components";
+import { ViewTransitions } from "astro:transitions";
 import ThemeSelector from "../components/ThemeSelector.astro";
 import BaseLayout from "./BaseLayout.astro";
-interface Props {
-	title: string;
-}
-
-const { title } = Astro.props;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title="Admin">
+<div class="container mx-auto px-4">
     <div class="navbar bg-base-100 hidden">
         <div class="navbar-end">
             <ThemeSelector />
         </div>
     </div>
-<Nav client:only="react" />
+    <ViewTransitions />
 <slot />
+</div>
 </BaseLayout>
-

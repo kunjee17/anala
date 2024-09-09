@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import type { ShortTimestamp } from "../components";
+import type { ShortTimestamp } from "../components/admin/posts";
 
 export const POSTS = "posts";
 export const TAGS = "tags";

@@ -1,6 +1,7 @@
 ---
 import { format } from "date-fns";
-import { type ShortPost, removeHtmlFromMarkdown } from "../helpers";
+import { removeHtmlFromMarkdown } from "../helpers";
+import type { ShortPost } from "./admin/posts";
 export type Props = ShortPost;
 
 const { published_on, author, title, content, url } = Astro.props;

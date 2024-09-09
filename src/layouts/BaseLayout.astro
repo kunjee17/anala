@@ -2,7 +2,7 @@
 interface Props {
 	title: string;
 }
-
+import { ViewTransitions } from "astro:transitions";
 const { title } = Astro.props;
 const currentTheme = "cupcake"; //will come form firebase config
 ---
@@ -15,6 +15,7 @@ const currentTheme = "cupcake"; //will come form firebase config
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
 </head>
 <body>
 <slot />

@@ -1,6 +1,11 @@
 ---
+import TagCloud from "../../components/TagCloud.astro";
+import { getTags } from "../../firebase/server";
+import type { Tag } from "../../helpers";
 import Layout from "../../layouts/Layout.astro";
+
+const tags: Tag[] = await getTags();
 ---
 <Layout name="Tags">
-    Tags Here
+    <TagCloud baseURL="tags" tags={tags} title="Tags" />
 </Layout>

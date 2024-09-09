@@ -1,12 +1,25 @@
----
 
+---
 import PostItemList from "../../components/PostItemList.astro";
-import { dummyPosts, pageSize } from "../../components/site/data";
+import { timeStampToDate } from "../../firebase/fireHelper";
+import { getPagedPosts, getPostCount } from "../../firebase/server";
+import { calculateTotalPages } from "../../helpers";
 import Layout from "../../layouts/Layout.astro";
 
 const { no } = Astro.params;
 const pageNumber = Number(no || "1");
+
+const postsPerPage = import.meta.env.PUBLIC_SITE_POST_PER_PAGE;
+const noOfPosts = await getPostCount();
+const posts = await getPagedPosts(postsPerPage, pageNumber);
+const shortPosts = posts.map((post) => ({
+	published_on: timeStampToDate(post.createdAt),
+	author: post.author,
+	title: post.title,
+	content: post.content,
+	url: post.url,
+}));
 ---
 <Layout name="Home">
-    <PostItemList posts={dummyPosts} pageSize={pageSize()} currentPage={pageNumber} />
+    <PostItemList posts={shortPosts} pageSize={calculateTotalPages(noOfPosts, postsPerPage)} currentPage={pageNumber} />
 </Layout>

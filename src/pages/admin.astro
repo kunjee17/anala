@@ -1,0 +1,9 @@
+---
+
+import { Main } from "../components/admin/main";
+import AdminLayout from "../layouts/AdminLayout.astro";
+---
+
+<AdminLayout>
+    <Main client:only="react" />
+</AdminLayout>

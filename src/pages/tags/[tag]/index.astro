@@ -1,0 +1,34 @@
+
+---
+import PostItemList from "../../../components/PostItemList.astro";
+import { timeStampToDate } from "../../../firebase/fireHelper";
+import {
+	getPagedPostsByTag,
+	getPostCountByTag,
+	getTagFromSlug,
+} from "../../../firebase/server";
+import { calculateTotalPages } from "../../../helpers";
+import Layout from "../../../layouts/Layout.astro";
+
+const { tag } = Astro.params;
+if (!tag) return Astro.redirect("/404");
+
+const postsPerPage = import.meta.env.PUBLIC_SITE_POST_PER_PAGE;
+const tagItem = await getTagFromSlug(tag);
+
+if (!tagItem) return Astro.redirect("/404");
+
+const noOfPosts = await getPostCountByTag(tagItem.name);
+const posts = await getPagedPostsByTag(tag, postsPerPage, 1);
+const shortPosts = posts.map((post) => ({
+	published_on: timeStampToDate(post.createdAt),
+	author: post.author,
+	title: post.title,
+	content: post.content,
+	url: post.url,
+}));
+---
+<Layout name=`Tag - ${tag}`>
+    List of blog from this {tag}
+    <PostItemList posts={shortPosts} pageSize={calculateTotalPages(noOfPosts, postsPerPage)} currentPage={1} />
+</Layout>

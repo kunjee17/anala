@@ -48,7 +48,16 @@ const themes = [
 <script>
     const defaultTheme = "light";
 
-    document.addEventListener('DOMContentLoaded', function () {
+    function applyTheme(selector : HTMLSelectElement) : void {
+        const savedTheme = localStorage.getItem("selected-theme") || defaultTheme;
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        // Set the selected option in the dropdown based on the saved theme
+        if (selector) {
+            selector.value = savedTheme;
+        }
+    }
+
+    function themeSelector() {
         const selector = document.getElementById('theme-selector') as HTMLSelectElement;
 
         const handleThemeChange = (event: Event) => {
@@ -60,12 +69,15 @@ const themes = [
 
         selector?.addEventListener('change', handleThemeChange);
 
-        const savedTheme = localStorage.getItem("selected-theme") || defaultTheme;
-        document.documentElement.setAttribute("data-theme", savedTheme);
+        applyTheme(selector)
+    }
 
-        // Set the selected option in the dropdown based on the saved theme
-        if (selector) {
-            selector.value = savedTheme;
-        }
-    });
+    document.addEventListener('DOMContentLoaded', themeSelector);
+    document.addEventListener('astro:page-load', themeSelector);
+    document.addEventListener('astro:after-swap', () => {
+        const selector = document.getElementById('theme-selector') as HTMLSelectElement;
+        applyTheme(selector);
+    })
+
+
 </script>

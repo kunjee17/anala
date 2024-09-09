@@ -1,3 +1,2 @@
-export * from "./AddOrEdit";
-export * from "./List";
+export * from "./addOrEdit";
 export * from "./types";

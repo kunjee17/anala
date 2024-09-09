@@ -1,7 +1,8 @@
 ---
-import type { ShortPost } from "../helpers";
+
 import Pagination from "./Pagination.astro";
 import PostItem from "./PostItem.astro";
+import type { ShortPost } from "./admin/posts";
 
 export type Props = {
 	posts: ShortPost[];
@@ -10,7 +11,7 @@ export type Props = {
 };
 const { posts, pageSize, currentPage } = Astro.props;
 ---
-<div class="container mx-auto p-4">
+
     <!-- Blog List -->
 <div class="space-y-8">
     {posts.map(post => (
@@ -19,4 +20,3 @@ const { posts, pageSize, currentPage } = Astro.props;
 </div>
     <!-- Pagination -->
     <Pagination currentPage={currentPage} pageSize={pageSize} />
-</div>

@@ -2,14 +2,6 @@ import { format } from "date-fns";
 import DOMPurify from "dompurify";
 import { marked } from "marked";
 
-export type ShortPost = {
-	published_on: Date;
-	author: string;
-	title: string;
-	content: string;
-	url: string;
-};
-
 export const titleToSlug = (title: string) =>
 	title
 		.toLowerCase() // Convert to lowercase
