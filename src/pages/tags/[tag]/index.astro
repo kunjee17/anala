@@ -1,14 +1,14 @@
 
 ---
-import PostItemList from "../../components/PostItemList.astro";
-import { timeStampToDate } from "../../firebase/fireHelper";
+import PostItemList from "../../../components/PostItemList.astro";
+import { timeStampToDate } from "../../../firebase/fireHelper";
 import {
 	getPagedPostsByTag,
 	getPostCountByTag,
 	getTagFromSlug,
-} from "../../firebase/server";
-import { calculateTotalPages } from "../../helpers";
-import Layout from "../../layouts/Layout.astro";
+} from "../../../firebase/server";
+import { calculateTotalPages } from "../../../helpers";
+import Layout from "../../../layouts/Layout.astro";
 
 const { tag } = Astro.params;
 if (!tag) return Astro.redirect("/404");

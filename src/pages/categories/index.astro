@@ -1,6 +1,11 @@
 ---
 
-import Layout from "../../layouts/Layout.astro";---
+import TagCloud from "../../components/TagCloud.astro";
+import { getCategories } from "../../firebase/server";
+import Layout from "../../layouts/Layout.astro";
+
+const categories = await getCategories();
+---
 <Layout name="Categories">
-    Categories
+    <TagCloud baseURL={"categories"} tags={categories} title="Categories" />
 </Layout>

@@ -1,0 +1,52 @@
+---
+import type { Tag } from "../helpers";
+export type Props = {
+	tags: Tag[];
+	title: string;
+	baseURL: string;
+};
+const { tags, title, baseURL } = Astro.props;
+
+const counts = tags.map((tag) => tag.count);
+const minCount = Math.min(...counts);
+const maxCount = Math.max(...counts);
+
+const getFontSizeRem = (
+	count: number,
+	minCount: number,
+	maxCount: number,
+): string => {
+	if (maxCount === minCount) {
+		return "1rem"; // Default size if all counts are the same
+	}
+
+	// Set min and max font sizes in rem
+	const minFontSizeRem = 1;
+	const maxFontSizeRem = 2;
+
+	// Calculate the proportional font size based on the count
+	const fontSizeRem =
+		minFontSizeRem +
+		((count - minCount) / (maxCount - minCount)) *
+			(maxFontSizeRem - minFontSizeRem);
+
+	return `${fontSizeRem}rem`;
+};
+---
+<div class="flex flex-col items-center space-y-6">
+    <!-- Tag Count in Center -->
+    <h1 class="label label-text text-xl">No of {title}: {counts.length}</h1>
+
+    <!-- Tag Cloud -->
+    <div class="flex flex-wrap justify-center gap-4">
+        {tags.map((tag) => (
+                <a
+                        href={`/${baseURL}/${encodeURIComponent(tag.slug)}`}
+                        style={{ fontSize: `${getFontSizeRem(tag.count, minCount, maxCount)}` }}
+                        class="hover:underline text-primary"
+                >
+                    {tag.name}
+                </a>
+        ))}
+    </div>
+</div>

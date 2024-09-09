@@ -1,12 +1,16 @@
 ---
 
+import { getPages } from "../firebase/server";
 import NavPageLinks from "./NavPageLinks.astro";
 import ThemeSelector from "./ThemeSelector.astro";
 import { siteConfig } from "./site/data";
 export type Props = {
 	title: string;
 };
-const allPages = siteConfig.pages
+
+const customPages = await getPages();
+
+const allPages = [...siteConfig.pages, ...customPages]
 	.filter((p) => p.isVisible)
 	.sort((a, b) => (a.weight > b.weight ? 1 : -1));
 const { title } = Astro.props;

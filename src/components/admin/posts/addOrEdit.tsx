@@ -6,13 +6,12 @@ import { useState } from "react";
 import { Button, Form, Input } from "react-daisyui";
 import * as v from "valibot";
 import { slugToUrl, titleToSlug } from "../../../helpers";
-import { FieldInfo } from "../components/fieldInfo.tsx";
+import { ErrorMsg, FieldInfo } from "../components";
 import type { Post } from "./types.ts";
 
 import { Timestamp } from "firebase/firestore";
 import { insertOrUpdatePost } from "../../../firebase/client.ts";
 import { timeStampToDate } from "../../../firebase/fireHelper.ts";
-import { ErrorMsg } from "../components/errorMsg.tsx";
 
 export const AddOrEdit = ({
 	initialData,

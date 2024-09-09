@@ -28,3 +28,9 @@ export const deleteById = async (
 		};
 	}
 };
+
+export type Tag = {
+	name: string;
+	count: number;
+	slug: string;
+};
