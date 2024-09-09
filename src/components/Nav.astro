@@ -1,18 +1,23 @@
+
 ---
 
-import { getPages } from "../firebase/server";
+import { getPages, insertDefaultPages } from "../firebase/server";
 import NavPageLinks from "./NavPageLinks.astro";
 import ThemeSelector from "./ThemeSelector.astro";
-import { siteConfig } from "./site/data";
+
 export type Props = {
 	title: string;
 };
 
-const customPages = await getPages();
+const pages = await getPages();
 
-const allPages = [...siteConfig.pages, ...customPages]
-	.filter((p) => p.isVisible)
-	.sort((a, b) => (a.weight > b.weight ? 1 : -1));
+const allPages = pages.sort((a, b) => (a.weight > b.weight ? 1 : -1));
+
+// If Home is not there then there is need to insert System page
+if (!allPages.find((p) => p.name === "Home")) {
+	await insertDefaultPages();
+}
+
 const { title } = Astro.props;
 ---
 <div class="navbar bg-base-100">
@@ -46,6 +51,6 @@ const { title } = Astro.props;
         </ul>
     </div>
     <div class="navbar-end">
-        <ThemeSelector />
+        <ThemeSelector/>
     </div>
 </div>

@@ -1,3 +1,5 @@
+import type { AnalaPage } from "../components/admin/pages";
+
 export type ResultType = "Success" | "Failure";
 
 export type Result = {
@@ -34,3 +36,46 @@ export type Tag = {
 	count: number;
 	slug: string;
 };
+
+export const defaultPages: AnalaPage[] = [
+	{
+		name: "Home",
+		href: "/",
+		content: "## Home",
+		weight: 1,
+		isVisible: true,
+		isSystem: true,
+	},
+	{
+		name: "Tags",
+		href: "/tags",
+		content: "## Tags",
+		weight: 3,
+		isVisible: true,
+		isSystem: true,
+	},
+	{
+		name: "Categories",
+		href: "/categories",
+		content: "## Categories",
+		weight: 4,
+		isVisible: true,
+		isSystem: true,
+	},
+	{
+		name: "Archives",
+		href: "/archives",
+		content: "## Archives",
+		weight: 2,
+		isVisible: false,
+		isSystem: true,
+	},
+	{
+		name: "Contact",
+		href: "/contact",
+		content: "## Contact",
+		weight: 30,
+		isVisible: true,
+		isSystem: true,
+	},
+];

@@ -3,7 +3,7 @@ import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import type { AnalaPage } from "../components/admin/pages";
 import type { Post } from "../components/admin/posts";
-import type { Tag } from "../helpers";
+import { type Tag, defaultPages } from "../helpers";
 import { CATEGORIES, PAGES, POSTS, TAGS } from "./fireHelper.ts";
 
 const serviceAccount = {
@@ -27,21 +27,26 @@ const app = !getApps().length
 
 const firestore = app ? getFirestore(app) : getFirestore();
 
+export type PageOrPost = {
+	type: "Page" | "Post";
+	data: AnalaPage | Post;
+};
+
 export const getPageOrPostBySlug = async (slug: string) => {
 	const postsCollection = firestore.collection(POSTS);
 	const pagesCollection = firestore.collection(PAGES);
 
 	// Query both collections in parallel
 	const [postSnapshot, pageSnapshot] = await Promise.all([
-		postsCollection.where("url", "==", slug).limit(1).get(),
-		pagesCollection.where("href", "==", slug).limit(1).get(),
+		postsCollection.where("url", "==", `/${slug}`).limit(1).get(),
+		pagesCollection.where("href", "==", `/${slug}`).limit(1).get(),
 	]);
 
 	// Check if the document exists in posts collection
 	if (!postSnapshot.empty) {
 		const post = postSnapshot.docs[0]?.data() as Post;
 		if (post) {
-			return { type: "post", data: post };
+			return { type: "Post", data: post } as PageOrPost;
 		}
 	}
 
@@ -49,7 +54,7 @@ export const getPageOrPostBySlug = async (slug: string) => {
 	if (!pageSnapshot.empty) {
 		const page = pageSnapshot.docs[0]?.data() as AnalaPage;
 		if (page) {
-			return { type: "page", data: page };
+			return { type: "Page", data: page } as PageOrPost;
 		}
 		return null;
 	}
@@ -178,8 +183,23 @@ export const getPostCountByCategory = async (category: string) => {
 };
 
 export const getPages = async () => {
-	const pages = await firestore.collection(PAGES).get();
+	const pages = await firestore
+		.collection(PAGES)
+		.where("isVisible", "==", true)
+		.get();
 	return pages.docs.map((doc) => {
 		return { id: doc.id, ...doc.data() } as AnalaPage;
 	});
+};
+
+export const insertDefaultPages = async () => {
+	const batch = firestore.batch();
+	const pageCollection = firestore.collection(PAGES);
+	for (const page of defaultPages) {
+		const pageDoc = pageCollection.doc();
+		batch.set(pageDoc, page);
+	}
+
+	await batch.commit();
+	console.log("Bulk insert of default pages completed successfully.");
 };

@@ -15,6 +15,7 @@ export type CommonListProps = {
 				content: string;
 				href: string;
 				editHref: ReactElement;
+				isDelete: boolean;
 		  }[]
 		| undefined;
 };
@@ -51,18 +52,20 @@ export const CommonList = ({
 										<Button color="primary">View</Button>
 									</a>
 									{item.editHref}
-									<Button
-										color={"error"}
-										onClick={() => {
-											setSelectedItem({
-												id: item.id,
-												name: item.name,
-											});
-											setIsModalOpen(true);
-										}}
-									>
-										Delete
-									</Button>
+									{item.isDelete && (
+										<Button
+											color={"error"}
+											onClick={() => {
+												setSelectedItem({
+													id: item.id,
+													name: item.name,
+												});
+												setIsModalOpen(true);
+											}}
+										>
+											Delete
+										</Button>
+									)}
 								</div>
 							</Card.Body>
 						</Card>

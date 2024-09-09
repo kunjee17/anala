@@ -37,6 +37,7 @@ function List() {
 				name: item.title,
 				content: item.content,
 				href: item.url,
+				isDelete: true,
 				editHref: (
 					<Link
 						className="btn btn-secondary"
