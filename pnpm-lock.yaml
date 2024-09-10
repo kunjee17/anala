@@ -14,6 +14,9 @@ importers:
       '@astrojs/netlify':
         specifier: ^5.5.1
         version: 5.5.1(astro@4.15.3(@types/node@22.4.1)(rollup@4.21.0)(typescript@5.5.4))
+      '@astrojs/partytown':
+        specifier: ^2.1.2
+        version: 2.1.2
       '@astrojs/react':
         specifier: ^3.6.2
         version: 3.6.2(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.3(@types/node@22.4.1))
@@ -171,6 +174,9 @@ packages:
     resolution: {integrity: sha512-tC5L51/bMo5SjM+7/eKw+NJL4aXDr8BLGLgrN874YU+lX4Q4VqiFsy/yLjfgj7NXFHNdK8CTCrTrcg89knKryw==}
     peerDependencies:
       astro: ^4.2.0
+
+  '@astrojs/partytown@2.1.2':
+    resolution: {integrity: sha512-1a9T5lqxtnrw0qLPo1KwliUvaaUzPNPtWucD8VxdwT7zqcpODFk1RzGgAgqVo+YhutFrTu/qclbtnOfXBuskjw==}
 
   '@astrojs/prism@3.1.0':
     resolution: {integrity: sha512-Z9IYjuXSArkAUx3N6xj6+Bnvx8OdUSHA8YoOgyepp3+zJmtVYJIl/I18GozdJVW1p5u/CNpl3Km7/gwTJK85cw==}
@@ -378,6 +384,11 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@builder.io/partytown@0.10.2':
+    resolution: {integrity: sha512-A9U+4PREWcS+CCYzKGIPovtGB/PBgnH/8oQyCE6Nr9drDJk6cMPpLQIEajpGPmG9tYF7N3FkRvhXm/AS9+0iKg==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   '@codemirror/autocomplete@6.18.0':
     resolution: {integrity: sha512-5DbOvBbY4qW5l57cjDsmmpDh3/TeK1vXfTHa+BUMrRzdWdcxKZ4U4V7vQaTtOpApNU4kLS4FQ6cINtLg245LXA==}
@@ -4324,6 +4335,11 @@ snapshots:
       - encoding
       - supports-color
 
+  '@astrojs/partytown@2.1.2':
+    dependencies:
+      '@builder.io/partytown': 0.10.2
+      mrmime: 2.0.0
+
   '@astrojs/prism@3.1.0':
     dependencies:
       prismjs: 1.29.0
@@ -4571,6 +4587,8 @@ snapshots:
 
   '@biomejs/cli-win32-x64@1.8.3':
     optional: true
+
+  '@builder.io/partytown@0.10.2': {}
 
   '@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1)':
     dependencies:

@@ -1,8 +1,67 @@
 ---
 
-import Layout from "../layouts/Layout.astro";---
+import Layout from "../layouts/Layout.astro";
+const formAction = "/contact-success";
+---
 <Layout name="Contact" >
 
-    This is totally Netlify Contact Page
+    <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Contact Us</h2>
 
+        <form
+                name="contact"
+                method="POST"
+                netlify-honeypot="bot-field"
+                data-netlify="true"
+                action={formAction}
+                class="mt-6">
+
+            <!-- Netlify Honeypot Field for bot protection (invisible to users) -->
+            <input type="hidden" name="form-name" value="contact" />
+            <div class="hidden">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </div>
+
+            <!-- Name Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 dark:text-gray-200">Name</label>
+                <input
+                        type="text"
+                        name="name"
+                        placeholder="John Doe"
+                        class="input input-bordered w-full dark:bg-gray-700 dark:text-gray-300"
+                        required
+                />
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 dark:text-gray-200">Email</label>
+                <input
+                        type="email"
+                        name="email"
+                        placeholder="john@example.com"
+                        class="input input-bordered w-full dark:bg-gray-700 dark:text-gray-300"
+                        required
+                />
+            </div>
+
+            <!-- Message Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 dark:text-gray-200">Message</label>
+                <textarea
+                        name="message"
+                        rows="4"
+                        placeholder="Your message here..."
+                        class="textarea textarea-bordered w-full dark:bg-gray-700 dark:text-gray-300"
+                        required
+                ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+        </form>
+    </section>
 </Layout>
