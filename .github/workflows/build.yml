@@ -7,14 +7,10 @@ on:
   pull_request:
     branches:
       - main
-env:
-  # Setting an environment variable with the value of a configuration variable
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ vars.CI }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,7 +33,7 @@ jobs:
       - name: Build Astro project
         run: pnpm run build
         env:
-          PUBLIC_SITE: ${{ vars.PUBLIC_SITE }}
+          PUBLIC_SITE: https://anala.netlify.app
 
   release:
     runs-on: ubuntu-latest
