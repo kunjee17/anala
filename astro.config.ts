@@ -8,13 +8,15 @@ import dotenv from "dotenv";
 
 import robotsTxt from "astro-robots-txt";
 
+import partytown from "@astrojs/partytown";
+
 //Loading .env file
 dotenv.config();
 
 // https://astro.build/config
 export default defineConfig({
 	site: process.env.PUBLIC_SITE || "",
-	integrations: [react(), tailwind(), sitemap(), robotsTxt()],
+	integrations: [react(), tailwind(), sitemap(), robotsTxt(), partytown()],
 	output: "server",
 	adapter: netlify({
 		cacheOnDemandPages: true,
