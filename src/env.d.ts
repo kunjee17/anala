@@ -20,6 +20,8 @@ interface ImportMetaEnv {
 	readonly SITE_SESSION_DAYS: number;
 	readonly PUBLIC_SITE_POST_PER_PAGE: number;
 	readonly ALLOWED_EMAILS: string;
+	readonly PUBLIC_SITE: string;
+	readonly SITE_DESCRIPTION: string;
 }
 
 interface ImportMeta {

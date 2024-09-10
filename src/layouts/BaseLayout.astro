@@ -1,14 +1,19 @@
 ---
 interface Props {
 	title: string;
+	description?: string;
 }
 import { ViewTransitions } from "astro:transitions";
-const { title } = Astro.props;
+import { SEO } from "astro-seo";
+const { title, description } = Astro.props;
+const site_description = import.meta.env.SITE_DESCRIPTION;
 const currentTheme = "cupcake"; //will come form firebase config
 ---
 <!doctype html>
 <html data-theme={currentTheme} lang="en">
 <head>
+    <SEO title={title} description={description || site_description} />
+
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
