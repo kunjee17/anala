@@ -21,14 +21,15 @@ jobs:
         with:
           node-version: '22'
 
-      # Cache pnpm dependencies
-      - name: Cache pnpm modules
+      # Cache pnpm modules
+      - name: Restore pnpm cache
         uses: actions/cache@v3
         with:
-          path: ~/.pnpm-store
+          path: ~/.local/share/pnpm/store
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
       # Install pnpm
       - name: Install pnpm
         run: npm install -g pnpm
@@ -36,6 +37,13 @@ jobs:
       # Install dependencies with pnpm
       - name: Install dependencies
         run: pnpm install
+
+      # Save pnpm cache after install
+      - name: Save pnpm cache
+        uses: actions/cache@v3
+        with:
+           path: ~/.local/share/pnpm/store
+           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       # Build the Astro project
       - name: Build Astro project
