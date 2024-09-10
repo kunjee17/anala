@@ -1,7 +1,7 @@
 import { useAsync, useMountEffect } from "@react-hookz/web";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getPostById } from "../../../../../firebase/client.ts";
-import { ErrorMsg } from "../../../components/errorMsg.tsx";
+import { ErrorMsg } from "../../../components";
 import { AddOrEdit } from "../../../posts";
 
 export const Route = createLazyFileRoute("/_app/posts/$id/edit")({

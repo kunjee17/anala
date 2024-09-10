@@ -1,15 +1,20 @@
 import netlify from "@astrojs/netlify";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import { defineConfig } from "astro/config";
+import dotenv from "dotenv";
 
-import sitemap from "@astrojs/sitemap";
+import robotsTxt from "astro-robots-txt";
+
+//Loading .env file
+dotenv.config();
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://anala.netlify.app",
-	integrations: [react(), tailwind(), sitemap()],
+	site: process.env.PUBLIC_SITE || "",
+	integrations: [react(), tailwind(), sitemap(), robotsTxt()],
 	output: "server",
 	adapter: netlify({
 		cacheOnDemandPages: true,
