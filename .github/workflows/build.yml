@@ -14,7 +14,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENVIRONMENT_CI }}
+    environment: ${{ vars.CI }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
