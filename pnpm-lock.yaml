@@ -37,7 +37,7 @@ importers:
         version: 1.56.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/valibot-form-adapter':
         specifier: ^0.32.0
-        version: 0.32.0(valibot@0.41.0(typescript@5.5.4))
+        version: 0.32.0(valibot@1.2.0(typescript@5.5.4))
       '@uiw/react-markdown-editor':
         specifier: ^6.1.2
         version: 6.1.2(@babel/runtime@7.25.0)(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/theme-one-dark@6.1.2)(@codemirror/view@6.32.0)(@types/react@18.3.5)(codemirror@6.0.1(@lezer/common@1.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -90,8 +90,8 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
       valibot:
-        specifier: ^0.41.0
-        version: 0.41.0(typescript@5.5.4)
+        specifier: ^1.2.0
+        version: 1.2.0(typescript@5.5.4)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -4256,8 +4256,8 @@ packages:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
 
-  valibot@0.41.0:
-    resolution: {integrity: sha512-igDBb8CTYr8YTQlOKgaN9nSS0Be7z+WRuaeYqGf3Cjz3aKmSnqEmYnkfVjzIuumGqfHpa3fLIvMEAfhrpqN8ng==}
+  valibot@1.2.0:
+    resolution: {integrity: sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -6475,10 +6475,10 @@ snapshots:
 
   '@tanstack/store@0.5.5': {}
 
-  '@tanstack/valibot-form-adapter@0.32.0(valibot@0.41.0(typescript@5.5.4))':
+  '@tanstack/valibot-form-adapter@0.32.0(valibot@1.2.0(typescript@5.5.4))':
     dependencies:
       '@tanstack/form-core': 0.32.0
-      valibot: 0.41.0(typescript@5.5.4)
+      valibot: 1.2.0(typescript@5.5.4)
 
   '@tanstack/virtual-file-routes@1.56.0': {}
 
@@ -9671,7 +9671,7 @@ snapshots:
   uuid@9.0.1:
     optional: true
 
-  valibot@0.41.0(typescript@5.5.4):
+  valibot@1.2.0(typescript@5.5.4):
     optionalDependencies:
       typescript: 5.5.4
 
