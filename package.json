@@ -24,7 +24,7 @@
 		"@tanstack/react-router": "^1.56.1",
 		"@tanstack/valibot-form-adapter": "^0.32.0",
 		"@uiw/react-markdown-editor": "^6.1.2",
-		"astro": "^5.18.1",
+		"astro": "^6.4.6",
 		"astro-remote": "^0.3.3",
 		"astro-robots-txt": "^1.0.0",
 		"astro-seo": "^0.8.4",
